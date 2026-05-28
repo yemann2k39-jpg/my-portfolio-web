@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study AI Assistant | Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #f9fafb; --bg-card: #ffffff; --text-main: #111111;
+            --text-muted: #555555; --accent: #2563eb; --border: #e5e7eb;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.8; }
+        a { text-decoration: none; color: inherit; }
+        
+        nav {
+            position: fixed; top: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px); z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 4rem; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .logo { font-weight: 600; font-size: 1.2rem; }
+        .nav-links a { margin-left: 2rem; font-size: 0.95rem; color: var(--text-muted); transition: color 0.3s ease; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .case-container { max-width: 900px; margin: 8rem auto; padding: 0 2rem; }
+        
+        /* --- BACK BUTTON FIX --- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        .case-header { margin-bottom: 4rem; }
+        .case-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .case-header .tags { margin-bottom: 2rem; }
+        .tag {
+            display: inline-block; padding: 0.25rem 0.75rem; background-color: white; border: 1px solid var(--border);
+            border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; color: var(--text-muted);
+        }
+        .btn {
+            display: inline-block; padding: 0.75rem 1.5rem; border-radius: 8px;
+            font-weight: 500; font-size: 1rem; transition: all 0.3s ease; margin-right: 1rem; border: none; cursor: pointer;
+        }
+        .btn-primary { background-color: var(--text-main); color: white; }
+        .btn-primary:hover { background-color: var(--accent); transform: translateY(-2px); }
+
+        .section-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+        
+        .case-section h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        
+        /* --- FEATURE LAYOUT (SIDE-BY-SIDE, IMAGE SMALLER) --- */
+        .feature-row {
+            display: flex; gap: 3rem; margin-bottom: 4rem; align-items: center;
+            background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s ease;
+        }
+        .feature-row:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        
+        .feature-text { flex: 1.5; } /* Takes up 60% of the space */
+        .feature-text h3 { margin-bottom: 0.5rem; color: var(--accent); }
+        
+        /* --- IMAGE FIX (UNCROPPED, SIZED FOR MOBILE SCREENSHOTS) --- */
+        .feature-image {
+            flex: 1; /* Takes up 40% of the space */
+            background: #f3f4f6; 
+            border-radius: 8px; 
+            padding: 1rem; /* Breathing room so edges aren't cut off */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer;
+        }
+        .feature-image img {
+            max-width: 100%;
+            max-height: 350px; /* Prevents phone screenshots from getting too tall */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* Shows the whole image without cropping */
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .feature-image:hover img {
+            transform: scale(1.02); /* Subtle zoom on hover */
+        }
+
+        /* --- LIGHTBOX (IMAGE PREVIEW) --- */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Sits on top of everything */
+            cursor: pointer; /* Click background to close */
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox img {
+            max-width: 80vw; /* 3/4 of laptop screen width */
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            cursor: default;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .feature-row { flex-direction: column; }
+            .feature-text, .feature-image { flex: auto; width: 100%; }
+            .feature-image img { max-height: 400px; }
+            .case-header h1 { font-size: 2.2rem; }
+            .lightbox img { max-width: 95vw; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">MONO</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#projects">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LIGHTBOX MODAL (Hidden by default) -->
+    <div class="lightbox" id="lightbox">
+        <img id="lightbox-img" src="" alt="Preview">
+    </div>
+
+    <div class="case-container">
+        <a href="index.html" class="back-link">< Back to Home</a>
+        
+        <div class="case-header">
+            <h1>Study AI Assistant</h1>
+            <div class="tags">
+                <span class="tag">Mobile App</span>
+                <span class="tag">AI / LLM</span>
+                <span class="tag">UI/UX</span>
+            </div>
+            <p>Unifying document viewing and AI interaction into a single, dynamic study session to eliminate context-switching.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>The Problem</h2>
+            <p>Students often switch between PDFs, AI chatbots, and note-taking apps while studying. On mobile devices, this becomes even more disruptive due to constant tab switching and scattered resources, making revision less focused and inefficient.</p>
+        </div>
+
+        <div class="case-section">
+            <h2>The Solution</h2>
+            <p>Study AI Assistant is a mobile application that bridges the gap between reading and querying. Users upload PDFs, create dedicated study spaces, and chat with an AI that understands the context of their materials, all within a single screen. Integrated note-taking ensures all insights are captured in one place.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>Key Features</h2>
+            
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Dynamic Split-Screen UI</h3>
+                    <p>The interface splits the screen between a PDF viewer and a chat window. Recognizing that user focus shifts during study, both panels are expandable—allowing a user to maximize the PDF while reading, or expand the chat when deep in a Q&A session.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/chat.jpg" alt="UI Design">
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Contextual AI Chat</h3>
+                    <p>Users can select single or multiple uploaded PDFs to bind to a study session. The AI processes the context of these specific documents, ensuring answers are accurate and relevant to the material being studied.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/home.jpg" alt="Contextual AI">
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Session-Bound Note-Taking</h3>
+                    <p>A native note-taking feature allows users to jot down insights without leaving the app. All data—chat history, PDF states, and user notes—are bound uniquely to each study session, creating a comprehensive, revisit-able study log.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/note.jpg" alt="Note-Taking">
+                </div>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>Future Improvements</h2>
+            <ul style="padding-left: 1.5rem; color: var(--text-muted); font-size: 1.05rem;">
+                <li style="margin-bottom: 1rem;"><strong>Automated Flashcard Generation:</strong> Integrating LLM capabilities to parse PDF sections and generate spaced-repetition flashcards automatically.</li>
+                <li><strong>Note Summarization:</strong> Implementing an AI agent to condense multi-page session notes into concise, digestible summaries for exam revision.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT FOR LIGHTBOX -->
+    <script>
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        // Add click event to all feature images
+        document.querySelectorAll(".feature-image img").forEach(img => {
+            img.addEventListener("click", (e) => {
+                lightbox.style.display = "flex"; // Show the overlay
+                lightboxImg.src = e.target.src;   // Put the clicked image inside
+                lightboxImg.alt = e.target.alt;
+            });
+        });
+
+        // Close lightbox when clicking the dark background
+        lightbox.addEventListener("click", (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.style.display = "none"; // Hide the overlay
+            }
+        });
+    </script>
+
+</body>
+</html>

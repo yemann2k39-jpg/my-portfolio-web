@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorable | Portfolio</title>
+    <style>
+        :root {
+            --bg-color: #f9fafb; --bg-card: #ffffff; --text-main: #111111;
+            --text-muted: #555555; --accent: #2563eb; --border: #e5e7eb;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        h1, h2, h3, h4 { font-weight: 600; line-height: 1.2; }
+        p { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 1.05rem; line-height: 1.8; }
+        a { text-decoration: none; color: inherit; }
+        
+        nav {
+            position: fixed; top: 0; width: 100%; background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(16px); z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        nav .container { display: flex; justify-content: space-between; align-items: center; height: 4rem; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .logo { font-weight: 600; font-size: 1.2rem; }
+        .nav-links a { margin-left: 2rem; font-size: 0.95rem; color: var(--text-muted); transition: color 0.3s ease; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .case-container { max-width: 900px; margin: 8rem auto; padding: 0 2rem; }
+        
+        /* --- BACK BUTTON FIX --- */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        .case-header { margin-bottom: 4rem; }
+        .case-header h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .case-header .tags { margin-bottom: 2rem; }
+        .tag {
+            display: inline-block; padding: 0.25rem 0.75rem; background-color: white; border: 1px solid var(--border);
+            border-radius: 20px; font-size: 0.85rem; margin-right: 0.5rem; color: var(--text-muted);
+        }
+        .btn {
+            display: inline-block; padding: 0.75rem 1.5rem; border-radius: 8px;
+            font-weight: 500; font-size: 1rem; transition: all 0.3s ease; margin-right: 1rem; border: none; cursor: pointer;
+        }
+        .btn-primary { background-color: var(--text-main); color: white; }
+        .btn-primary:hover { background-color: var(--accent); transform: translateY(-2px); }
+
+        .section-divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+        
+        .case-section h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        
+        /* --- FEATURE LAYOUT FIX (VERTICAL) --- */
+        .feature-row {
+            display: flex;
+            flex-direction: column; /* Stacks text and image vertically */
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s ease;
+        }
+        .feature-row:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        
+        .feature-text { width: 100%; }
+        .feature-text h3 { margin-bottom: 0.5rem; color: var(--accent); }
+        
+        /* --- IMAGE FIX (UNCROPPED, CLICKABLE) --- */
+        .feature-image {
+            width: 100%;
+            background: #f3f4f6; 
+            border-radius: 8px; 
+            padding: 1rem; /* Adds breathing room so edges aren't cut off */
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; /* Shows user they can click */
+        }
+        .feature-image img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain; /* Ensures whole image is always visible */
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+        .feature-image:hover img {
+            transform: scale(1.01); /* Subtle zoom on hover to indicate clickability */
+        }
+
+        /* --- LIGHTBOX (IMAGE PREVIEW) --- */
+        .lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 2000; /* Sits on top of everything */
+            cursor: pointer; /* Click background to close */
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox img {
+            max-width: 75vw; /* 3/4 of laptop screen width */
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            cursor: default; /* Don't want closing cursor on the image itself */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .case-header h1 { font-size: 2.2rem; }
+            .lightbox img { max-width: 95vw; } /* Bigger on mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">MONO</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#projects">Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LIGHTBOX MODAL (Hidden by default) -->
+    <div class="lightbox" id="lightbox">
+        <img id="lightbox-img" src="" alt="Preview">
+    </div>
+
+    <div class="case-container">
+        <a href="index.html" class="back-link">< Back to Home</a>
+        
+        <div class="case-header">
+            <h1>Memorable | Discover the Unseen</h1>
+            <div class="tags">
+                <span class="tag">Full-Stack Web</span>
+                <span class="tag">Geospatial Data</span>
+                <span class="tag">Community Platform</span>
+            </div>
+            <p>A map-first community platform designed to surface authentic experiences and filter out digital noise, free from influencer hype.</p>
+            <!-- ADD YOUR LIVE LINK OR GITHUB LINK BELOW -->
+            <a href="https://memorable-k.duckdns.org" class="btn btn-primary" target="_blank">Visit Live Project</a>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>The Problem</h2>
+            <p>Modern travel discovery is broken. Algorithms prioritize engagement over authenticity, flooding users with influencer hype and overcrowded tourist traps. Authentic, quiet, and culturally rich locations are buried. Furthermore, existing platforms suffer from duplicate content and karma-farming, making it impossible to verify if a location is genuinely worth visiting.</p>
+        </div>
+
+        <div class="case-section">
+            <h2>The Solution</h2>
+            <p>Memorable is a map-first platform engineered to surface authentic experiences. By anchoring the user experience to a map rather than an infinite scroll, and by implementing technical safeguards against duplicate content, Memorable fosters a community built on genuine, verified exploration.</p>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>Key Features</h2>
+            
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Map-First Architecture</h3>
+                    <p>The main interface is an interactive map. All exploration and posting originate from the map. Users can search by location name or filter by "vibes" and categories (e.g., "Cozy," "Hidden Gem"), with pins dynamically rendered based on the viewport.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/map.jpg" alt="Map Interface">
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Geospatial Deduplication</h3>
+                    <p>To maintain data integrity, I implemented a radius-based deduplication algorithm. When a user attempts to post a new spot, the system queries existing posts within a 1km radius. If a similar name or tag exists, it prompts the user to add a review/comment to the existing post instead, while still allowing an override if necessary.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/deduplication.jpg" alt="Deduplication Logic">
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Community Validation System</h3>
+                    <p>Trust is built through a unique review system. Users who have visited the same place post under the original story. They rate the location on Authenticity, Crowd Level, and Value (1-10). This crowdsourced verification ensures the post remains honest and free from influencer bias.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/reviews.jpg" alt="Review System">
+                </div>
+            </div>
+
+            <div class="feature-row">
+                <div class="feature-text">
+                    <h3>Hyper-Local Discovery</h3>
+                    <p>A location-based suggestion engine highlights hidden spots within a 10km radius of the user, encouraging the exploration of nearby unseen places. Users can also save spots to their profile for future trips.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="images/stories.jpg" alt="Local Discovery">
+                </div>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <div class="case-section">
+            <h2>Future Improvements</h2>
+            <ul style="padding-left: 1.5rem; color: var(--text-muted); font-size: 1.05rem;">
+                <li style="margin-bottom: 1rem;"><strong>Offline Maps:</strong> Allowing users to download map areas and saved spots for exploration in areas with poor network coverage.</li>
+                <li><strong>Social Graph Integration:</strong> Implementing a trust score based on social connections, allowing users to weight reviews higher if they come from people within their extended network.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- JAVASCRIPT FOR LIGHTBOX -->
+    <script>
+        const lightbox = document.getElementById("lightbox");
+        const lightboxImg = document.getElementById("lightbox-img");
+
+        // Add click event to all feature images
+        document.querySelectorAll(".feature-image img").forEach(img => {
+            img.addEventListener("click", (e) => {
+                lightbox.style.display = "flex"; // Show the overlay
+                lightboxImg.src = e.target.src;   // Put the clicked image inside
+                lightboxImg.alt = e.target.alt;
+            });
+        });
+
+        // Close lightbox when clicking the dark background
+        lightbox.addEventListener("click", (e) => {
+            if (e.target !== lightboxImg) {
+                lightbox.style.display = "none"; // Hide the overlay
+            }
+        });
+    </script>
+
+</body>
+</html>
