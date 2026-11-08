@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  < pathLength="100" width="1600" height="900" fill="#f5f1e8"/>
+  < pathLength="100" x="24" y="24" width="1552" height="852" fill="none" stroke="#d5cdb9" stroke-width="2"/>
+  <text x="72" y="110" font-family="'IBM Plex Mono', monospace" font-size="26" letter-spacing="6" fill="#b8432d">ARCHITECTURE — LILROUTINE (LOCAL-FIRST)</text>
+
+  <!-- app -->
+  < pathLength="100" x="90" y="220" width="440" height="420" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="310" y="270" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#1c1a16" text-anchor="middle">Flutter app</text>
+  < pathLength="100" x="120" y="300" width="380" height="70" fill="#f5f1e8" stroke="#5b5549" stroke-width="2"/>
+  <text x="310" y="342" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#1c1a16" text-anchor="middle">rings · charts · streaks · mascot</text>
+  < pathLength="100" x="120" y="390" width="380" height="70" fill="#f5f1e8" stroke="#5b5549" stroke-width="2"/>
+  <text x="310" y="432" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#1c1a16" text-anchor="middle">deterministic insight engine</text>
+  < pathLength="100" x="120" y="480" width="380" height="70" fill="#f5f1e8" stroke="#5b5549" stroke-width="2"/>
+  <text x="310" y="522" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#1c1a16" text-anchor="middle">local reminders (battery-aware)</text>
+  <text x="310" y="600" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#b8432d" text-anchor="middle">works 100% offline, zero AI required</text>
+
+  <!-- sqlite -->
+  < pathLength="100" x="680" y="290" width="340" height="140" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="850" y="340" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#1c1a16" text-anchor="middle">SQLite on device</text>
+  <text x="850" y="380" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">one unified log · foods library · v1→v3</text>
+
+  <!-- secure storage -->
+  < pathLength="100" x="680" y="520" width="340" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="850" y="565" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#1c1a16" text-anchor="middle">Secure storage</text>
+  <text x="850" y="605" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">BYO Gemini key (Keystore-backed)</text>
+
+  <!-- gemini optional -->
+  < pathLength="100" x="1130" y="520" width="380" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="1320" y="565" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#1c1a16" text-anchor="middle">Gemini REST (optional)</text>
+  <text x="1320" y="605" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">food-photo estimates · weekly recap</text>
+
+  <!-- arrows -->
+  < pathLength="100" x1="530" y1="360" x2="680" y2="360" stroke="#1c1a16" stroke-width="3"/>
+  < pathLength="100" points="680,360 662,352 662,368" fill="#1c1a16"/>
+  < pathLength="100" points="530,360 548,352 548,368" fill="#1c1a16"/>
+  < pathLength="100" x1="850" y1="430" x2="850" y2="520" stroke="#5b5549" stroke-width="3" stroke-dasharray="10 8"/>
+  < pathLength="100" x1="1020" y1="580" x2="1130" y2="580" stroke="#5b5549" stroke-width="3" stroke-dasharray="10 8"/>
+  < pathLength="100" points="1130,580 1112,572 1112,588" fill="#5b5549"/>
+
+  <text x="72" y="820" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#5b5549">every insight is arithmetic over the user\u2019s own logs — AI narrates, it never invents</text>
+</svg>

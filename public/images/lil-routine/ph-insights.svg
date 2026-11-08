@@ -1,0 +1,11 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1640" viewBox="0 0 800 1640">
+  <rect width="800" height="1640" rx="90" fill="#1c1a16"/>
+  <rect x="30" y="30" width="740" height="1580" rx="68" fill="#f5f1e8"/>
+  <circle cx="400" cy="86" r="16" fill="#1c1a16"/>
+  <text x="80" y="230" font-family="'IBM Plex Mono', monospace" font-size="24" letter-spacing="5" fill="#b8432d">PLACEHOLDER</text>
+  <text x="80" y="430" font-family="Georgia, serif" font-size="64" font-weight="700" fill="#1c1a16">Insights</text>
+  <text x="80" y="510" font-family="Georgia, serif" font-size="30" font-style="italic" fill="#5b5549">deterministic coaching</text>
+  <rect x="80" y="600" width="640" height="2" fill="#d5cdb9"/>
+  <text x="80" y="1540" font-family="'IBM Plex Mono', monospace" font-size="19" fill="#5b5549">public/images/lil-routine/ph-insights.svg</text>
+  <text x="80" y="1600" font-family="'IBM Plex Mono', monospace" font-size="20" letter-spacing="4" fill="#b8432d">SCREEN 03</text>
+</svg>

@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#1c1a16"/>
+  <rect x="24" y="24" width="1872" height="1032" fill="none" stroke="#f5f1e8" stroke-width="3" stroke-dasharray="14 10"/>
+  <polygon points="860,440 860,640 1040,540" fill="#b8432d"/>
+  <text x="960" y="760" font-family="'IBM Plex Mono', monospace" font-size="30" letter-spacing="8" fill="#f5f1e8" text-anchor="middle">ADD YOUR VIDEO / GIF HERE</text>
+  <text x="960" y="840" font-family="Georgia, 'Times New Roman', serif" font-size="46" font-style="italic" fill="#d5cdb9" text-anchor="middle">3D build viewer with error pulses</text>
+  <text x="960" y="910" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#5b5549" text-anchor="middle">public/images/pc-shop/vid-3d.svg</text>
+</svg>

@@ -1,0 +1,10 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1640" viewBox="0 0 800 1640">
+  <rect width="800" height="1640" rx="90" fill="#1c1a16"/>
+  <rect x="30" y="30" width="740" height="1580" rx="68" fill="#14120e"/>
+  <circle cx="400" cy="86" r="16" fill="#2a2620"/>
+  <polygon points="330,760 330,920 470,840" fill="#b8432d"/>
+  <text x="400" y="1010" font-family="'IBM Plex Mono', monospace" font-size="26" letter-spacing="6" fill="#f5f1e8" text-anchor="middle">ADD YOUR VIDEO</text>
+  <text x="400" y="1080" font-family="Georgia, serif" font-size="40" font-style="italic" fill="#d5cdb9" text-anchor="middle">AI food logging</text>
+  <text x="400" y="1150" font-family="'IBM Plex Mono', monospace" font-size="18" fill="#5b5549" text-anchor="middle">public/images/lil-routine/ph-ai.svg</text>
+  <text x="400" y="1560" font-family="'IBM Plex Mono', monospace" font-size="20" letter-spacing="4" fill="#b8432d" text-anchor="middle">SCREEN 02 — VIDEO</text>
+</svg>

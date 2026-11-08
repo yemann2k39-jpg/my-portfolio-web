@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memorable | Portfolio</title>
+    <title>Study AI Assistant | Portfolio</title>
     <style>
         :root {
             --bg-color: #f9fafb; --bg-card: #ffffff; --text-main: #111111;
@@ -57,40 +57,39 @@
         
         .case-section h2 { font-size: 2rem; margin-bottom: 1.5rem; }
         
-        /* --- FEATURE LAYOUT FIX (VERTICAL) --- */
+        /* --- FEATURE LAYOUT (SIDE-BY-SIDE, IMAGE SMALLER) --- */
         .feature-row {
-            display: flex;
-            flex-direction: column; /* Stacks text and image vertically */
-            gap: 1.5rem;
-            margin-bottom: 4rem;
+            display: flex; gap: 3rem; margin-bottom: 4rem; align-items: center;
             background: white; padding: 2rem; border-radius: 16px; border: 1px solid var(--border);
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s ease;
         }
         .feature-row:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transform: translateY(-3px); }
         
-        .feature-text { width: 100%; }
+        .feature-text { flex: 1.5; } /* Takes up 60% of the space */
         .feature-text h3 { margin-bottom: 0.5rem; color: var(--accent); }
         
-        /* --- IMAGE FIX (UNCROPPED, CLICKABLE) --- */
+        /* --- IMAGE FIX (UNCROPPED, SIZED FOR MOBILE SCREENSHOTS) --- */
         .feature-image {
-            width: 100%;
+            flex: 1; /* Takes up 40% of the space */
             background: #f3f4f6; 
             border-radius: 8px; 
-            padding: 1rem; /* Adds breathing room so edges aren't cut off */
+            padding: 1rem; /* Breathing room so edges aren't cut off */
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            cursor: pointer; /* Shows user they can click */
+            cursor: pointer;
         }
         .feature-image img {
             max-width: 100%;
+            max-height: 350px; /* Prevents phone screenshots from getting too tall */
+            width: auto;
             height: auto;
-            object-fit: contain; /* Ensures whole image is always visible */
+            object-fit: contain; /* Shows the whole image without cropping */
             border-radius: 4px;
             transition: transform 0.3s ease;
         }
         .feature-image:hover img {
-            transform: scale(1.01); /* Subtle zoom on hover to indicate clickability */
+            transform: scale(1.02); /* Subtle zoom on hover */
         }
 
         /* --- LIGHTBOX (IMAGE PREVIEW) --- */
@@ -107,12 +106,12 @@
             animation: fadeIn 0.3s ease;
         }
         .lightbox img {
-            max-width: 75vw; /* 3/4 of laptop screen width */
-            max-height: 80vh;
+            max-width: 80vw; /* 3/4 of laptop screen width */
+            max-height: 90vh;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            cursor: default; /* Don't want closing cursor on the image itself */
+            cursor: default;
         }
 
         @keyframes fadeIn {
@@ -121,8 +120,11 @@
         }
 
         @media (max-width: 768px) {
+            .feature-row { flex-direction: column; }
+            .feature-text, .feature-image { flex: auto; width: 100%; }
+            .feature-image img { max-height: 400px; }
             .case-header h1 { font-size: 2.2rem; }
-            .lightbox img { max-width: 95vw; } /* Bigger on mobile */
+            .lightbox img { max-width: 95vw; }
         }
     </style>
 </head>
@@ -130,7 +132,7 @@
 
     <nav>
         <div class="container">
-            <a href="index.html" class="logo">MONO</a>
+            <a href="index.html" class="logo">ymk<span style="color: var(--accent);">.</span></a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="index.html#projects">Projects</a>
@@ -147,27 +149,25 @@
         <a href="index.html" class="back-link">< Back to Home</a>
         
         <div class="case-header">
-            <h1>Memorable | Discover the Unseen</h1>
+            <h1>Study AI Assistant</h1>
             <div class="tags">
-                <span class="tag">Full-Stack Web</span>
-                <span class="tag">Geospatial Data</span>
-                <span class="tag">Community Platform</span>
+                <span class="tag">Mobile App</span>
+                <span class="tag">AI / LLM</span>
+                <span class="tag">UI/UX</span>
             </div>
-            <p>A map-first community platform designed to surface authentic experiences and filter out digital noise, free from influencer hype.</p>
-            <!-- ADD YOUR LIVE LINK OR GITHUB LINK BELOW -->
-            <a href="https://memorable-k.duckdns.org" class="btn btn-primary" target="_blank">Visit Live Project</a>
+            <p>Unifying document viewing and AI interaction into a single, dynamic study session to eliminate context-switching.</p>
         </div>
 
         <hr class="section-divider">
 
         <div class="case-section">
             <h2>The Problem</h2>
-            <p>Modern travel discovery is broken. Algorithms prioritize engagement over authenticity, flooding users with influencer hype and overcrowded tourist traps. Authentic, quiet, and culturally rich locations are buried. Furthermore, existing platforms suffer from duplicate content and karma-farming, making it impossible to verify if a location is genuinely worth visiting.</p>
+            <p>Students often switch between PDFs, AI chatbots, and note-taking apps while studying. On mobile devices, this becomes even more disruptive due to constant tab switching and scattered resources, making revision less focused and inefficient.</p>
         </div>
 
         <div class="case-section">
             <h2>The Solution</h2>
-            <p>Memorable is a map-first platform engineered to surface authentic experiences. By anchoring the user experience to a map rather than an infinite scroll, and by implementing technical safeguards against duplicate content, Memorable fosters a community built on genuine, verified exploration.</p>
+            <p>Study AI Assistant is a mobile application that bridges the gap between reading and querying. Users upload PDFs, create dedicated study spaces, and chat with an AI that understands the context of their materials, all within a single screen. Integrated note-taking ensures all insights are captured in one place.</p>
         </div>
 
         <hr class="section-divider">
@@ -177,41 +177,31 @@
             
             <div class="feature-row">
                 <div class="feature-text">
-                    <h3>Map-First Architecture</h3>
-                    <p>The main interface is an interactive map. All exploration and posting originate from the map. Users can search by location name or filter by "vibes" and categories (e.g., "Cozy," "Hidden Gem"), with pins dynamically rendered based on the viewport.</p>
+                    <h3>Dynamic Split-Screen UI</h3>
+                    <p>The interface splits the screen between a PDF viewer and a chat window. Recognizing that user focus shifts during study, both panels are expandable—allowing a user to maximize the PDF while reading, or expand the chat when deep in a Q&A session.</p>
                 </div>
                 <div class="feature-image">
-                    <img src="images/map.jpg" alt="Map Interface">
+                    <img src="images/chat.jpg" alt="UI Design">
                 </div>
             </div>
 
             <div class="feature-row">
                 <div class="feature-text">
-                    <h3>Geospatial Deduplication</h3>
-                    <p>To maintain data integrity, I implemented a radius-based deduplication algorithm. When a user attempts to post a new spot, the system queries existing posts within a 1km radius. If a similar name or tag exists, it prompts the user to add a review/comment to the existing post instead, while still allowing an override if necessary.</p>
+                    <h3>Contextual AI Chat</h3>
+                    <p>Users can select single or multiple uploaded PDFs to bind to a study session. The AI processes the context of these specific documents, ensuring answers are accurate and relevant to the material being studied.</p>
                 </div>
                 <div class="feature-image">
-                    <img src="images/deduplication.jpg" alt="Deduplication Logic">
+                    <img src="images/home.jpg" alt="Contextual AI">
                 </div>
             </div>
 
             <div class="feature-row">
                 <div class="feature-text">
-                    <h3>Community Validation System</h3>
-                    <p>Trust is built through a unique review system. Users who have visited the same place post under the original story. They rate the location on Authenticity, Crowd Level, and Value (1-10). This crowdsourced verification ensures the post remains honest and free from influencer bias.</p>
+                    <h3>Session-Bound Note-Taking</h3>
+                    <p>A native note-taking feature allows users to jot down insights without leaving the app. All data—chat history, PDF states, and user notes—are bound uniquely to each study session, creating a comprehensive, revisit-able study log.</p>
                 </div>
                 <div class="feature-image">
-                    <img src="images/reviews.jpg" alt="Review System">
-                </div>
-            </div>
-
-            <div class="feature-row">
-                <div class="feature-text">
-                    <h3>Hyper-Local Discovery</h3>
-                    <p>A location-based suggestion engine highlights hidden spots within a 10km radius of the user, encouraging the exploration of nearby unseen places. Users can also save spots to their profile for future trips.</p>
-                </div>
-                <div class="feature-image">
-                    <img src="images/stories.jpg" alt="Local Discovery">
+                    <img src="images/note.jpg" alt="Note-Taking">
                 </div>
             </div>
         </div>
@@ -221,8 +211,8 @@
         <div class="case-section">
             <h2>Future Improvements</h2>
             <ul style="padding-left: 1.5rem; color: var(--text-muted); font-size: 1.05rem;">
-                <li style="margin-bottom: 1rem;"><strong>Offline Maps:</strong> Allowing users to download map areas and saved spots for exploration in areas with poor network coverage.</li>
-                <li><strong>Social Graph Integration:</strong> Implementing a trust score based on social connections, allowing users to weight reviews higher if they come from people within their extended network.</li>
+                <li style="margin-bottom: 1rem;"><strong>Automated Flashcard Generation:</strong> Integrating LLM capabilities to parse PDF sections and generate spaced-repetition flashcards automatically.</li>
+                <li><strong>Note Summarization:</strong> Implementing an AI agent to condense multi-page session notes into concise, digestible summaries for exam revision.</li>
             </ul>
         </div>
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <!-- Editorial title card (not a screenshot) — LilRoutine cover plate -->
+  <rect width="1600" height="1100" fill="#f5f1e8"/>
+  <rect x="0" y="0" width="1600" height="1100" fill="none" stroke="#d5cdb9" stroke-width="2"/>
+  <rect x="36" y="36" width="1528" height="1028" fill="none" stroke="#1c1a16" stroke-width="3"/>
+
+  <g font-family="Georgia, 'Times New Roman', serif">
+    <text x="120" y="200" font-size="30" letter-spacing="8" fill="#b8432d" font-family="'IBM Plex Mono', monospace">CASE PLATE — LILROUTINE</text>
+    <text x="116" y="420" font-size="200" font-weight="700" fill="#1c1a16">LilRoutine.</text>
+    <text x="120" y="510" font-size="44" font-style="italic" fill="#5b5549">local-first water, calorie &amp; habit tracker with an AI coach</text>
+  </g>
+
+  <!-- daily log motif -->
+  <g font-family="'IBM Plex Mono', monospace" font-size="26" fill="#5b5549">
+    <text x="120" y="660">TYPE  water  ·  250 ml  ······  09:14</text>
+    <text x="120" y="710">TYPE  food   ·  ramen 700 kcal ···  13:02</text>
+    <text x="120" y="760" fill="#b8432d">LOCAL SQLITE — INSIGHTS COMPUTED ON DEVICE</text>
+  </g>
+  <line x1="120" y1="700" x2="1480" y2="700" stroke="#d5cdb9" stroke-width="2"/>
+  <line x1="120" y1="750" x2="1480" y2="750" stroke="#d5cdb9" stroke-width="2"/>
+
+  <g font-family="'IBM Plex Mono', monospace" font-size="24" letter-spacing="4" fill="#5b5549">
+    <text x="120" y="960">FLUTTER · DART · SQLITE (SQFLITE) · GEMINI REST · FLUTTER_TEST</text>
+  </g>
+  <circle cx="1462" cy="952" r="10" fill="#b8432d"/>
+</svg>

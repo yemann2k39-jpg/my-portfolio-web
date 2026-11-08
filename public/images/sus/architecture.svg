@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  < pathLength="100" width="1600" height="900" fill="#f5f1e8"/>
+  < pathLength="100" x="24" y="24" width="1552" height="852" fill="none" stroke="#d5cdb9" stroke-width="2"/>
+  <text x="72" y="110" font-family="'IBM Plex Mono', monospace" font-size="26" letter-spacing="6" fill="#b8432d">ARCHITECTURE — SUS URL SHORTENER</text>
+
+  <!-- browser -->
+  < pathLength="100" x="90" y="260" width="280" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="230" y="310" font-family="'IBM Plex Mono', monospace" font-size="26" fill="#1c1a16" text-anchor="middle">Visitor browser</text>
+  <text x="230" y="345" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">/sus-code redirect</text>
+
+  <!-- middleware -->
+  < pathLength="100" x="470" y="260" width="300" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="620" y="305" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#1c1a16" text-anchor="middle">Edge middleware</text>
+  <text x="620" y="340" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">per-IP rate limit</text>
+
+  <!-- app -->
+  < pathLength="100" x="870" y="230" width="300" height="180" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="1020" y="280" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#1c1a16" text-anchor="middle">Next.js App Router</text>
+  <text x="1020" y="320" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">redirect · interstitial</text>
+  <text x="1020" y="350" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">create · auth · dashboard</text>
+  <text x="1020" y="385" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#b8432d" text-anchor="middle">LRU+TTL cache · 56 lines</text>
+
+  <!-- store -->
+  < pathLength="100" x="1270" y="260" width="260" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="1400" y="305" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#1c1a16" text-anchor="middle">LibSQL / Turso</text>
+  <text x="1400" y="340" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">SQLite · single file</text>
+
+  <!-- auth/email -->
+  < pathLength="100" x="870" y="560" width="300" height="120" fill="#fffdf8" stroke="#1c1a16" stroke-width="3"/>
+  <text x="1020" y="605" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#1c1a16" text-anchor="middle">scrypt auth</text>
+  <text x="1020" y="640" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">hashed tokens · Brevo email</text>
+
+  <!-- click counter -->
+  < pathLength="100" x="470" y="560" width="300" height="120" fill="#fffdf8" stroke="#b8432d" stroke-width="3" stroke-dasharray="10 8"/>
+  <text x="620" y="605" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#b8432d" text-anchor="middle">Buffered clicks</text>
+  <text x="620" y="640" font-family="'IBM Plex Mono', monospace" font-size="20" fill="#5b5549" text-anchor="middle">flush every 5s, one txn</text>
+
+  <!-- arrows -->
+  < pathLength="100" x1="370" y1="320" x2="470" y2="320" stroke="#1c1a16" stroke-width="3"/>
+  < pathLength="100" points="470,320 452,312 452,328" fill="#1c1a16"/>
+  < pathLength="100" x1="770" y1="320" x2="870" y2="320" stroke="#1c1a16" stroke-width="3"/>
+  < pathLength="100" points="870,320 852,312 852,328" fill="#1c1a16"/>
+  < pathLength="100" x1="1170" y1="320" x2="1270" y2="320" stroke="#1c1a16" stroke-width="3"/>
+  < pathLength="100" points="1270,320 1252,312 1252,328" fill="#1c1a16"/>
+  < pathLength="100" x1="1020" y1="410" x2="1020" y2="560" stroke="#5b5549" stroke-width="3" stroke-dasharray="10 8"/>
+  < pathLength="100" x1="870" y1="620" x2="770" y2="620" stroke="#5b5549" stroke-width="3" stroke-dasharray="10 8"/>
+
+  <text x="72" y="820" font-family="'IBM Plex Mono', monospace" font-size="22" fill="#5b5549">hot path: middleware → cache → one indexed query · misses never cached · swap store by rewriting one module</text>
+</svg>

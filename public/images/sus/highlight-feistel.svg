@@ -1,0 +1,9 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <rect width="1600" height="1000" fill="#f5f1e8"/>
+  <rect x="0" y="0" width="1600" height="1000" fill="none" stroke="#d5cdb9" stroke-width="2"/>
+  <rect x="28" y="28" width="1544" height="944" fill="none" stroke="#1c1a16" stroke-width="3" stroke-dasharray="14 10"/>
+  <text x="72" y="140" font-family="'IBM Plex Mono', monospace" font-size="28" letter-spacing="8" fill="#b8432d">PLACEHOLDER — DIAGRAM</text>
+  <text x="72" y="520" font-family="Georgia, 'Times New Roman', serif" font-size="84" font-weight="700" fill="#1c1a16">Feistel permutation.</text>
+  <text x="72" y="610" font-family="Georgia, 'Times New Roman', serif" font-size="38" font-style="italic" fill="#5b5549">rowid in, collision-free code out</text>
+  <text x="72" y="920" font-family="'IBM Plex Mono', monospace" font-size="24" fill="#5b5549">public/images/sus/highlight-feistel.svg</text>
+</svg>
