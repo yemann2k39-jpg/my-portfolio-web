@@ -49,7 +49,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-6 font-mono text-[11px] uppercase tracking-[0.16em]">
             <a href="mailto:yemann2k39@gmail.com" className="link-line">Email</a>
             <a href="https://github.com/yemann2k39-jpg" target="_blank" rel="noopener noreferrer" className="link-line">GitHub</a>
-            <a href="https://linkedin.com/in/yemannkyaw" target="_blank" rel="noopener noreferrer" className="link-line">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/ye-mann-kyaw" target="_blank" rel="noopener noreferrer" className="link-line">LinkedIn</a>
             <button
               onClick={toggle}
               aria-pressed={playing}

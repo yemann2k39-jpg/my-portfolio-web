@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-const TRACK = 'music/lux-fall-mood.mp3' // swap this file to change the music
+const TRACK = '/music/lux-fall-mood.mp3' // swap this file to change the music
 
 const SoundContext = createContext({ playing: false, toggle: () => {} })
 export const useSound = () => useContext(SoundContext)

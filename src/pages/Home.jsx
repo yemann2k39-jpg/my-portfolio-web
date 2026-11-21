@@ -114,7 +114,7 @@ function Cover() {
               {[
                 { label: 'Email', url: 'mailto:yemann2k39@gmail.com' },
                 { label: 'GitHub', url: 'https://github.com/yemann2k39-jpg' },
-                { label: 'LinkedIn', url: 'https://linkedin.com/in/yemannkyaw' },
+                { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ye-mann-kyaw' },
               ].map((s) => (
                 <a
                   key={s.label}

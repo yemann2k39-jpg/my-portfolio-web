@@ -422,7 +422,7 @@ function MobileLayout({ study, prev, next }) {
               </div>
               <div className="mx-auto w-full max-w-[282px] pv-phone">
                 <AutoPhone
-                  srcs={tab === 0 && study.slug === 'lil-routine' ? ['images/lil-routine/lilroutine.jpg'] : previewTabs[tab].img}
+                  srcs={tab === 0 && study.slug === 'lil-routine' ? ['/images/lil-routine/lilroutine.jpg'] : previewTabs[tab].img}
                 />
               </div>
               {/* mobile: tab buttons below the phone */}

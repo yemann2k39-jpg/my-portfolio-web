@@ -14,12 +14,12 @@ const studies = [
     tags: ['Dart', 'NestJS', 'TypeScript', 'PostgreSQL', 'Prisma ORM', 'React 19', 'Vite', 'Stripe API', 'JWT', 'WebSockets-free REST', 'Docker', 'Tailwind CSS'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/minipay/heroM.webp',
+    cover: '/images/minipay/heroM.webp',
     mobile: true,
     phones: [
-      'images/minipay/h2-2.webp',
-      'images/minipay/h2.webp',
-      'images/minipay/h3.webp',
+      '/images/minipay/h2-2.webp',
+      '/images/minipay/h2.webp',
+      '/images/minipay/h3.webp',
     ],
     flow: [
       { title: 'Mobile', sub: 'Flutter wallet + merchant app' },
@@ -40,7 +40,7 @@ const studies = [
       { value: '33', label: 'passing API unit tests' },
     ],
     architecture: {
-      diagram: 'images/minipay/architecture.svg',
+      diagram: '/images/minipay/architecture.svg',
       points: [
         'Every money movement creates balanced journal lines — wallet balances are calculated from those lines rather than stored as a mutable balance field. Ledger totals remain auditable, but reads require aggregation.',
         'PostgreSQL advisory transaction locks serialize operations touching the same accounts, with deterministic lock order to avoid deadlocks — two transfers can never both spend the same available balance.',
@@ -48,20 +48,20 @@ const studies = [
       ],
     },
     features: [
-      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['images/minipay/doubleL1.webp', 'images/minipay/doubleL2.webp'], video: true },
-      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: 'images/minipay/p2p.webm', video: true, cover: true }], video: true },
-      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: 'images/minipay/qrPayment.webm', video: true, cover: true }], video: true },
-      { title: 'Scan & split', text: 'Snap a photo of a receipt and server-side AI reads the line items, splits the total across the group and creates a request, so settling up takes one tap.', img: [{ src: 'images/minipay/splitBill.mp4', video: true, cover: true }], video: true },
+      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['/images/minipay/doubleL1.webp', '/images/minipay/doubleL2.webp'], video: true },
+      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: '/images/minipay/p2p.webm', video: true, cover: true }], video: true },
+      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: '/images/minipay/qrPayment.webm', video: true, cover: true }], video: true },
+      { title: 'Scan & split', text: 'Snap a photo of a receipt and server-side AI reads the line items, splits the total across the group and creates a request, so settling up takes one tap.', img: [{ src: '/images/minipay/splitBill.mp4', video: true, cover: true }], video: true },
     ],
     preview: [
-      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['images/minipay/doubleL1.webp', 'images/minipay/doubleL2.webp'] },
-      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: 'images/minipay/p2p.webm', video: true, cover: true }] },
-      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: 'images/minipay/qrPayment.webm', video: true, cover: true }] },
-      { title: 'Hardened security', text: 'Rotating refresh-token sessions with device tracking, bcrypt payment PINs, biometric app unlock and forgot-PIN recovery.', img: 'images/minipay/setting.webp' },
-      { title: 'Merchant gateway', text: 'Register a business, open collect-payment QR sessions and integrate through API keys on the hosted checkout page.', img: ['images/minipay/merchant.webp', 'images/minipay/merchantAPI.webp'] },
-      { title: 'Scan & split', text: 'Scan a shared receipt, let AI split it by line items, split the total across the group and create a request, all in just one tap', img: [{ src: 'images/minipay/splitBill.mp4', video: true, cover: true }] },
-      { title: 'Refunds, payouts & deposits', text: 'Refund claims are atomic with automatic ledger rollback on failure, while card deposits via Stripe PaymentIntents credit wallets through a single writer.', img: ['images/minipay/myQR.webp', 'images/minipay/refund.webp', 'images/minipay/deposite.webp'] },
-    { title: 'Know Your Money', text: 'A month-by-month view of your spending with inflow, outflow and net totals, daily and per category breakdowns, plus a searchable transaction history with filters, so every dollar is easy to find and every month is easy to understand.', img: ['images/minipay/monthlyReport.webp', 'images/minipay/history.webp'] },
+      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['/images/minipay/doubleL1.webp', '/images/minipay/doubleL2.webp'] },
+      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: '/images/minipay/p2p.webm', video: true, cover: true }] },
+      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: '/images/minipay/qrPayment.webm', video: true, cover: true }] },
+      { title: 'Hardened security', text: 'Rotating refresh-token sessions with device tracking, bcrypt payment PINs, biometric app unlock and forgot-PIN recovery.', img: '/images/minipay/setting.webp' },
+      { title: 'Merchant gateway', text: 'Register a business, open collect-payment QR sessions and integrate through API keys on the hosted checkout page.', img: ['/images/minipay/merchant.webp', '/images/minipay/merchantAPI.webp'] },
+      { title: 'Scan & split', text: 'Scan a shared receipt, let AI split it by line items, split the total across the group and create a request, all in just one tap', img: [{ src: '/images/minipay/splitBill.mp4', video: true, cover: true }] },
+      { title: 'Refunds, payouts & deposits', text: 'Refund claims are atomic with automatic ledger rollback on failure, while card deposits via Stripe PaymentIntents credit wallets through a single writer.', img: ['/images/minipay/myQR.webp', '/images/minipay/refund.webp', '/images/minipay/deposite.webp'] },
+    { title: 'Know Your Money', text: 'A month-by-month view of your spending with inflow, outflow and net totals, daily and per category breakdowns, plus a searchable transaction history with filters, so every dollar is easy to find and every month is easy to understand.', img: ['/images/minipay/monthlyReport.webp', '/images/minipay/history.webp'] },
     ],
 
     liveUrl: null,
@@ -207,12 +207,12 @@ const studies = [
     tags: ['Flutter', 'SQLite', 'Gemini REST API', 'Local-First'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/lil-routine/cover-hero.webp',
+    cover: '/images/lil-routine/cover-hero.webp',
     mobile: true,
     phones: [
-      'images/lil-routine/hero-1.webp',
-      'images/lil-routine/hero-2.webp',
-      'images/lil-routine/hero-3.webp',
+      '/images/lil-routine/hero-1.webp',
+      '/images/lil-routine/hero-2.webp',
+      '/images/lil-routine/hero-3.webp',
     ],
     flow: [
       { title: 'Android UI', sub: 'Flutter screens and widgets' },
@@ -235,7 +235,7 @@ const studies = [
       { value: '119', label: 'passing tests' },
     ],
     architecture: {
-      diagram: 'images/lil-routine/architecture.svg',
+      diagram: '/images/lil-routine/architecture.svg',
       points: [
         'The app writes through repositories, then reloads aggregates from the local database — there is no remote account or synchronization layer to maintain. Local-first design keeps the everyday experience offline.',
         'Deterministic code computes insights; Gemini receives limited, numbers-based context for optional weekly recaps. The app does not depend on AI for its core math.',
@@ -243,20 +243,20 @@ const studies = [
       ],
     },
     features: [
-      { title: 'Instant water logging', text: 'Tap a cup, the ring and mascot react instantly. Undo and per-drink delete included.', img: ['images/lil-routine/waterLog.webp'], video: true },
-      { title: 'Full macro meal log', text: 'Log “ramen” once, relog it in two taps with every macro remembered. New meals come from an AI photo estimate (your own Gemini key), reviewed before saving.', img: ['images/lil-routine/mealLog.webp', 'images/lil-routine/macroMealLog.webp'], video: true },
-      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['images/lil-routine/waterDashboard.webp', 'images/lil-routine/mealDashboard.webp'], video: true },
-      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: 'images/lil-routine/mascot.webm', video: true, cover: true }], video: true },
+      { title: 'Instant water logging', text: 'Tap a cup, the ring and mascot react instantly. Undo and per-drink delete included.', img: ['/images/lil-routine/waterLog.webp'], video: true },
+      { title: 'Full macro meal log', text: 'Log “ramen” once, relog it in two taps with every macro remembered. New meals come from an AI photo estimate (your own Gemini key), reviewed before saving.', img: ['/images/lil-routine/mealLog.webp', '/images/lil-routine/macroMealLog.webp'], video: true },
+      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['/images/lil-routine/waterDashboard.webp', '/images/lil-routine/mealDashboard.webp'], video: true },
+      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: '/images/lil-routine/mascot.webm', video: true, cover: true }], video: true },
     ],
     preview: [
-      { title: 'Instant water logging', text: 'Tap a cup and the ring and mascot react instantly, with undo and per-drink delete for mistakes. Logging water takes one tap, not a form.', img: ['images/lil-routine/waterLog.webp'] },
-      { title: 'Full macro meal log', text: 'Every meal is logged with full macros: protein, carbs, fat, fiber, sugar and sodium, with portion scaling and full edit-after-log support.', img: ['images/lil-routine/mealLog.webp', 'images/lil-routine/macroMealLog.webp'] },
-      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['images/lil-routine/waterDashboard.webp', 'images/lil-routine/mealDashboard.webp'] },
-      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: 'images/lil-routine/mascot.webm', video: true, cover: true }] },
-      { title: 'Learned food library', text: 'Log \u201cramen\u201d once and it becomes a two-tap relog, with every macro remembered for next time.', img: ['images/lil-routine/FoodLibiary.webp'] },
-      { title: 'AI food logging', text: 'A photo or a short description becomes a pre-filled estimate that you review before anything saves. It runs on your own Gemini key, so nothing is required from the app to work.', img: ['images/lil-routine/aiLog.webp'] },
-      { title: 'Weekly AI coach recap', text: 'Once every 7 days, Gemini turns the week\u2019s aggregate numbers into personalized tips, never seeing individual food names.', img: ['images/lil-routine/aiCoach.webp'] },
-      { title: 'Water reminders', text: 'Repeating reminders powered by Android exact alarms, with battery-optimization handling so they survive OEM restrictions.', img: ['images/lil-routine/notification.webp'] },
+      { title: 'Instant water logging', text: 'Tap a cup and the ring and mascot react instantly, with undo and per-drink delete for mistakes. Logging water takes one tap, not a form.', img: ['/images/lil-routine/waterLog.webp'] },
+      { title: 'Full macro meal log', text: 'Every meal is logged with full macros: protein, carbs, fat, fiber, sugar and sodium, with portion scaling and full edit-after-log support.', img: ['/images/lil-routine/mealLog.webp', '/images/lil-routine/macroMealLog.webp'] },
+      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['/images/lil-routine/waterDashboard.webp', '/images/lil-routine/mealDashboard.webp'] },
+      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: '/images/lil-routine/mascot.webm', video: true, cover: true }] },
+      { title: 'Learned food library', text: 'Log \u201cramen\u201d once and it becomes a two-tap relog, with every macro remembered for next time.', img: ['/images/lil-routine/FoodLibiary.webp'] },
+      { title: 'AI food logging', text: 'A photo or a short description becomes a pre-filled estimate that you review before anything saves. It runs on your own Gemini key, so nothing is required from the app to work.', img: ['/images/lil-routine/aiLog.webp'] },
+      { title: 'Weekly AI coach recap', text: 'Once every 7 days, Gemini turns the week\u2019s aggregate numbers into personalized tips, never seeing individual food names.', img: ['/images/lil-routine/aiCoach.webp'] },
+      { title: 'Water reminders', text: 'Repeating reminders powered by Android exact alarms, with battery-optimization handling so they survive OEM restrictions.', img: ['/images/lil-routine/notification.webp'] },
     ],
 
     liveUrl: null,
@@ -400,7 +400,7 @@ const studies = [
     tags: ['Next.js 15', 'React 19', 'JavaScript', 'LibSQL/Turso', 'Brevo Email API', 'Edge Middleware'],
     year: '2026',
     role: 'Solo developer — design, frontend, backend, database and deployment',
-    cover: 'images/sus/hero-maxchaos.webp',
+    cover: '/images/sus/hero-maxchaos.webp',
     how: [
       'Frontend: Next.js 15 App Router + React 19. Server components render the dashboard and redirect pages, while small client components handle the create form, QR modal and verification polling',
       'Backend: nine /api route handlers (auth, links, hits) behind edge middleware that rate-limits by IP before any database work',
@@ -423,7 +423,7 @@ const studies = [
       { value: 'SQLite + Turso', label: 'storage' },
     ],
     architecture: {
-      diagram: 'images/sus/architecture.svg',
+      diagram: '/images/sus/architecture.svg',
       points: [
         'The database ID is scrambled with a Feistel permutation and encoded as Base62 — every short code is unique without generating random candidates or checking for collisions. A permutation masks sequential IDs, but it is obfuscation rather than encryption.',
         'An LRU cache handles recent link lookups; click totals are buffered and written in batches every five seconds. A server restart can lose a small window of click counts.',
@@ -431,36 +431,36 @@ const studies = [
       ],
     },
     features: [
-      { title: 'Instant shortening', text: 'Create a short link with an optional custom name and a unique 6-character code, shortened instantly. QR codes are generated client-side, with instant preview and a downloadable 480px PNG on the result screen and in the dashboard modal.', img: ['images/sus/instantShortening1.webp', 'images/sus/instantShortening2.webp'] },
-      { title: 'Suspicious-link warning', text: 'Sus-mode links stop at a deadpan warning page naming the real destination host before the Continue button, turning an ordinary redirect into part of the joke. One dynamic route serves both instant and warning modes.', img: ['images/sus/sus-interstitial.webp'] },
-      { title: 'Link management dashboard', text: 'Manage personal links, check click counts, copy URLs, generate QR codes and delete links with a two-step confirmation.', img: ['images/sus/dashboard.webp'] },
-      { title: 'Account verification', text: 'Email-verified accounts with scrypt hashing, hashed single-use tokens and remember-me sessions keep every link tied to the right owner through an owner-scoped dashboard.', img: ['images/sus/verifyEmail.webp', { src: 'images/sus/verifyEmail2.webp', fit: 'contain-white' }, 'images/sus/emailVerified.webp'] },
+      { title: 'Instant shortening', text: 'Create a short link with an optional custom name and a unique 6-character code, shortened instantly. QR codes are generated client-side, with instant preview and a downloadable 480px PNG on the result screen and in the dashboard modal.', img: ['/images/sus/instantShortening1.webp', '/images/sus/instantShortening2.webp'] },
+      { title: 'Suspicious-link warning', text: 'Sus-mode links stop at a deadpan warning page naming the real destination host before the Continue button, turning an ordinary redirect into part of the joke. One dynamic route serves both instant and warning modes.', img: ['/images/sus/sus-interstitial.webp'] },
+      { title: 'Link management dashboard', text: 'Manage personal links, check click counts, copy URLs, generate QR codes and delete links with a two-step confirmation.', img: ['/images/sus/dashboard.webp'] },
+      { title: 'Account verification', text: 'Email-verified accounts with scrypt hashing, hashed single-use tokens and remember-me sessions keep every link tied to the right owner through an owner-scoped dashboard.', img: ['/images/sus/verifyEmail.webp', { src: '/images/sus/verifyEmail2.webp', fit: 'contain-white' }, '/images/sus/emailVerified.webp'] },
     ],
 
     liveUrl: null,
     githubUrl: 'https://github.com/yemann2k39-jpg/sus-url-shortener',
-    hero: 'images/sus/hero.svg',
+    hero: '/images/sus/hero.svg',
     story: {
       steps: [
         {
           title: 'Create',
           text: 'One INSERT. The link\u2019s rowid is scrambled through a 4-round Feistel network into a unique 6-character code — no collision checks, ever.',
-          img: 'images/sus/step-1-create.svg',
+          img: '/images/sus/step-1-create.svg',
         },
         {
           title: 'Share',
           text: 'Every link goes exactly where it claims. \u201cSus\u201d links add a deadpan warning interstitial before the real destination.',
-          img: 'images/sus/step-2-share.svg',
+          img: '/images/sus/step-2-share.svg',
         },
         {
           title: 'Click',
           text: 'An in-memory LRU cache answers the hot path; a miss hits one indexed query. Misses are never cached, so fresh links can\u2019t be shadowed.',
-          img: 'images/sus/step-3-click.svg',
+          img: '/images/sus/step-3-click.svg',
         },
         {
           title: 'Count',
           text: 'Clicks buffer in memory and flush every 5 seconds as one batched transaction — counting never slows the redirect.',
-          img: 'images/sus/step-4-count.svg',
+          img: '/images/sus/step-4-count.svg',
         },
       ],
       stats: [
@@ -470,13 +470,13 @@ const studies = [
         { value: '56 lines', label: 'hand-rolled LRU+TTL cache' },
       ],
       videos: [
-        { title: 'The sus interstitial, live', img: 'images/sus/video-interstitial.svg' },
-        { title: 'Dashboard, QR codes & two-step delete', img: 'images/sus/video-dashboard.svg' },
+        { title: 'The sus interstitial, live', img: '/images/sus/video-interstitial.svg' },
+        { title: 'Dashboard, QR codes & two-step delete', img: '/images/sus/video-dashboard.svg' },
       ],
       highlight: {
         title: 'Collision-free codes, without existence checks',
         text: 'Random-code generators slow down as the table grows and still need retry loops. Sus instead treats each code as a bijective Feistel permutation of the rowid over a 2\u00b3\u2074 space: uniqueness is inherited from the primary key, so creating a link stays a single INSERT for the life of the app.',
-        img: 'images/sus/highlight-feistel.svg',
+        img: '/images/sus/highlight-feistel.svg',
       },
     },
     stack: [
@@ -644,7 +644,7 @@ const studies = [
     tags: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'react-three-fiber / Three.js (3D viewer)', 'SQLite', 'Drizzle ORM', 'Node.js crypto', 'Groq LLM API', 'Stripe'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/pc-shop/hero-pc.webp',
+    cover: '/images/pc-shop/hero-pc.webp',
     how: [
       'Storefront (Next.js App Router, RSC-first): catalog, category, product, search, order and admin pages are server components querying the database directly. Cart, builder, 3D viewer and AI assistant are client islands. Business logic lives in pure lib modules so browser and server never drift.',
       'Data layer: SQLite via Drizzle ORM, 7 tables (products with structured JSON specs, orders with denormalized price snapshots, discounts, builds, users, sessions, benchmark_data).',
@@ -666,7 +666,7 @@ const studies = [
       { value: '3', label: 'payment provider options' },
     ],
     architecture: {
-      diagram: 'images/pc-shop/architecture.svg',
+      diagram: '/images/pc-shop/architecture.svg',
       points: [
         'Compatibility checks live in pure TypeScript functions, separate from React and database code — the same logic runs anywhere. A clean seam for future unit testing.',
         'The FPS model combines seeded GPU benchmark averages with CPU ceilings. Partial builds show wider uncertainty; missing pairings fall back to estimates — numbers are estimates, not a replacement for real benchmarks.',
@@ -674,11 +674,11 @@ const studies = [
       ],
     },
     features: [
-      { title: 'Build it in 3D', text: 'Every selected part renders as a GLB model inside the case in a live react-three-fiber scene, with orbit controls and clickable ghost slots for anything still missing.', img: [{ src: 'images/pc-shop/3DBuilder.webm', video: true }], video: true },
-      { title: 'Live rules, honest FPS', text: 'Twelve compatibility rules (sockets, memory, PSU headroom, GPU clearance and more) run on every selection with pulsing-red errors and plain-English fixes, while FPS estimates come from real TechPowerUp and GPUCheck data through a min(GPU, CPU-cap) model, reporting ±8%/±15% bands and CPU-bottleneck warnings.', img: [{ src: 'images/pc-shop/compatibility.webp', fit: 'contain-white' }, { src: 'images/pc-shop/performance.webp', fit: 'contain-white' }], video: true },
-      { title: 'An assistant that only knows the catalog', text: 'A Groq-powered chat with four tools (product search, details, compatibility check, performance estimate) that may only state what tool results return, with clickable product links and rate-limit retry handling.', img: [{ src: 'images/pc-shop/ai1.webp', fit: 'contain-white' }, { src: 'images/pc-shop/ai2.webp', fit: 'contain-white' }], video: true },
-      { title: 'The full commerce stack', text: 'Cart, checkout with server-side re-pricing, discounts (percent/fixed, product-scoped, redemption caps), order history, scrypt-hashed accounts with revocable sessions, and a separate admin dashboard.', img: [{ src: 'images/pc-shop/fcs1.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs2.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs3.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs4.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs5.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs6.webp', fit: 'contain-white' }], video: true },
-      { title: 'Builds made for sharing', text: 'Save any configuration to a community builds gallery on the website, where anyone can browse it and fork it straight into their own builder.', img: [{ src: 'images/pc-shop/communityBuild.webp', fit: 'contain-white' }, { src: 'images/pc-shop/commuityBuild2.webp', fit: 'contain-white' }], video: true },
+      { title: 'Build it in 3D', text: 'Every selected part renders as a GLB model inside the case in a live react-three-fiber scene, with orbit controls and clickable ghost slots for anything still missing.', img: [{ src: '/images/pc-shop/3DBuilder.webm', video: true }], video: true },
+      { title: 'Live rules, honest FPS', text: 'Twelve compatibility rules (sockets, memory, PSU headroom, GPU clearance and more) run on every selection with pulsing-red errors and plain-English fixes, while FPS estimates come from real TechPowerUp and GPUCheck data through a min(GPU, CPU-cap) model, reporting ±8%/±15% bands and CPU-bottleneck warnings.', img: [{ src: '/images/pc-shop/compatibility.webp', fit: 'contain-white' }, { src: '/images/pc-shop/performance.webp', fit: 'contain-white' }], video: true },
+      { title: 'An assistant that only knows the catalog', text: 'A Groq-powered chat with four tools (product search, details, compatibility check, performance estimate) that may only state what tool results return, with clickable product links and rate-limit retry handling.', img: [{ src: '/images/pc-shop/ai1.webp', fit: 'contain-white' }, { src: '/images/pc-shop/ai2.webp', fit: 'contain-white' }], video: true },
+      { title: 'The full commerce stack', text: 'Cart, checkout with server-side re-pricing, discounts (percent/fixed, product-scoped, redemption caps), order history, scrypt-hashed accounts with revocable sessions, and a separate admin dashboard.', img: [{ src: '/images/pc-shop/fcs1.webp', fit: 'contain-white' }, { src: '/images/pc-shop/fcs2.webp', fit: 'contain-white' }, { src: '/images/pc-shop/fcs3.webp', fit: 'contain-white' }, { src: '/images/pc-shop/fcs4.webp', fit: 'contain-white' }, { src: '/images/pc-shop/fcs5.webp', fit: 'contain-white' }, { src: '/images/pc-shop/fcs6.webp', fit: 'contain-white' }], video: true },
+      { title: 'Builds made for sharing', text: 'Save any configuration to a community builds gallery on the website, where anyone can browse it and fork it straight into their own builder.', img: [{ src: '/images/pc-shop/communityBuild.webp', fit: 'contain-white' }, { src: '/images/pc-shop/commuityBuild2.webp', fit: 'contain-white' }], video: true },
     ],
 
     liveUrl: null,
@@ -865,7 +865,7 @@ export const about = {
   paragraphs: [
     'I\u2019m a software developer with experience building web and mobile applications, from designing interfaces and developing backend services to integrating APIs and databases. I\u2019m passionate about software development and enjoy working across different areas of it, exploring new technologies, and taking projects from an initial idea to a working application. I\u2019m always willing to learn, take on unfamiliar challenges, and put in the effort to improve my skills. My approach is to keep things practical, pay attention to the details, and write code that\u2019s easy to understand, maintain, and improve.',
   ],
-  portrait: 'images/profile.webp',
+  portrait: '/images/profile.webp',
 }
 
 export const approach =
