@@ -1,4 +1,4 @@
-﻿import { motion, useScroll, useTransform, useVelocity } from 'framer-motion'
+import { motion, useScroll, useTransform, useVelocity } from 'framer-motion'
 
 const ITEMS = [
   'FULL-STACK DEVELOPMENT',
@@ -18,7 +18,7 @@ export default function Ticker() {
 
   const row = [...ITEMS, ...ITEMS]
   return (
-    <div className="overflow-hidden border-y border-line bg-paper-deep/60 py-3 select-none" aria-hidden="true">
+    <div className="ticker-bar overflow-hidden border-y border-line bg-paper-deep/60 py-3 select-none" aria-hidden="true">
       <motion.div style={{ skewX, x: drift }} className="will-change-transform">
         <div className="marquee-track flex w-max items-center gap-8 whitespace-nowrap">
           {[0, 1].map((half) => (

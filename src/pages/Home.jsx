@@ -26,11 +26,11 @@ function Cover() {
   }
 
   return (
-    <section className="relative flex-1 px-5 pt-36 md:px-8 md:pt-42">
+    <section className="cover-sec relative flex-1 px-5 pt-28 md:px-8 md:pt-42">
       <div className="mx-auto max-w-6xl">
         {/* rubber stamp — top right */}
         <div
-          className="absolute right-40 top-[154px] z-10 hidden select-none md:block"
+          className="stamp absolute right-5 top-24 z-10 select-none md:right-40 md:top-[154px]"
           style={{ transform: 'rotate(-10deg) scale(1.15)' }}
         >
           <div className="border-2 border-accent p-1.5 opacity-85">
@@ -50,7 +50,7 @@ function Cover() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 font-display font-semibold tracking-[-0.03em] leading-[0.92] text-[15.5vw] md:text-[7rem] lg:text-[8.5rem]"
+          className="hero-name mt-4 font-display font-semibold tracking-[-0.03em] leading-[0.92] text-[15.5vw] md:text-[7rem] lg:text-[8.5rem]"
         >
           <span className="inline-block overflow-hidden pb-[0.08em] align-bottom">
             <SplitChars text="Ye Mann" delay={0.2} />
@@ -72,16 +72,19 @@ function Cover() {
         </motion.p>
 
         {/* rest — starts at page center, top aligned with the middle of “Kyaw” */}
-        <div className="mt-12 flex justify-start md:absolute md:left-[56%] md:right-8 md:top-[290px] lg:top-[325px]">
+        <div className="hero-rest mt-5 flex justify-start md:absolute md:left-[56%] md:right-8 md:top-[290px] lg:top-[325px]">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-md pt-8"
           >
-            <p className="text-xl md:text-2xl leading-relaxed text-ink">
-              I build software to explore ideas, solve technical challenges, and turn curiosity
-              into working applications.
+            <h2 className="font-display text-2xl md:text-3xl font-medium tracking-tight leading-snug">
+              Think it through. Build it right.
+            </h2>
+            <p className="mt-3 text-lg md:text-xl leading-relaxed text-ink">
+              I design and develop software with a focus on thoughtful architecture, practical
+              problem-solving, and engineering that goes beyond just making things work.
             </p>
 
             <p className="mt-4 font-mono text-[13px] uppercase tracking-[0.14em] text-ink-soft">
@@ -97,7 +100,9 @@ function Cover() {
                 View Selected Projects ↓
               </a>
               <a
-                href="resume.pdf"
+                href="Ye_Mann_Kyaw_Software_Engineering_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 download
                 className="border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-ink transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
               >
@@ -115,7 +120,7 @@ function Cover() {
                   key={s.label}
                   href={s.url}
                   target={s.url.startsWith('http') ? '_blank' : undefined}
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="border border-line px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft transition-colors hover:border-accent hover:text-accent"
                 >
                   {s.label}
@@ -134,10 +139,19 @@ function Cover() {
    ±SLOT° around the ring — genuinely tilted in 3D, partially cut by the screen
    edge. Swiping rotates the whole ring; only 3 cards are ever visible. */
 
-function Carousel() {
+function Carousel({ scale, mobile = false, tablet = false }) {
   const n = caseStudies.length
   const navigate = useNavigate()
-  const [index, setIndex] = useState(0)
+  // remember which project the user last viewed — restored when they come back
+  const [index, setIndexState] = useState(() => {
+    const v = Number(sessionStorage.getItem('portfolio:lastProject'))
+    return Number.isFinite(v) && v >= 0 && v < n ? v : 0
+  })
+  const setIndex = (v) => {
+    const val = typeof v === 'function' ? v(index) : v
+    sessionStorage.setItem('portfolio:lastProject', String(val))
+    setIndexState(val)
+  }
   const [dragAngle, setDragAngle] = useState(0)
   const go = (d) => setIndex((index + d + n) % n)
 
@@ -146,7 +160,7 @@ function Carousel() {
   // Ring geometry: LOGICAL slots are even (360°/6) so ordering always holds
   // (project 6 sits left of project 1), but the VISUAL tilt per slot is gentler.
   const SLOT = 360 / n // even ring: slot spacing adapts to project count
-  const TILT = 30     // visual rotation per slot — gentle backward tilt
+  const TILT = mobile || tablet ? 55 : 30 // slot tilt — wider on mobile/tablet so the bigger cards stay separated
   const norm = (a) => ((a % 360) + 540) % 360 - 180
 
   // Ring size follows the stage width so proportions hold at every breakpoint.
@@ -218,8 +232,9 @@ function Carousel() {
   return (
     <div>
       {/* ——— glass panel: wraps image, title, description and controls ——— */}
-      <div className="relative px-4 pt-10 pb-5 sm:px-8 sm:pt-12 sm:pb-6">
-        {/* sized to the front card + ~1.5cm each side; top sits ~1cm above the image */}
+      <div className={`relative ${mobile ? 'px-1 pt-15 pb-5' : tablet ? 'px-4 pt-28 pb-16' : 'px-4 pt-10 sm:px-8 sm:pt-12 sm:pb-6'}`}>
+        {/* sized to hug the front card — the 3D perspective magnifies it ~1.5×,
+            so panel ≈ 0.43(stage) × 1.5 + a small margin each side */}
         <div
           className="glass-stage"
           aria-hidden="true"
@@ -227,10 +242,12 @@ function Carousel() {
             stageW
               ? {
                   left: '50%',
-                  top: 10,
-                  bottom: 10,
+                  top: mobile ? 5 : tablet ? 12 : 10,
+                  bottom: mobile ? 0 : tablet ? 10 : 10,
                   transform: 'translateX(-50%)',
-                  width: stageW * 0.72 + 114,
+                  width: mobile || tablet
+                    ? stageW
+                    : Math.min(stageW * 0.72 + 114, stageW),
                 }
               : { left: '8%', right: '8%', top: 12, bottom: 12 }
           }
@@ -258,7 +275,7 @@ function Carousel() {
               role="button"
               aria-label={`Show ${study.title}`}
               aria-current={Math.abs(angle) < 1}
-              className={`absolute left-1/2 top-1/2 w-[43%] ${
+              className={`absolute left-1/2 top-1/2 ${mobile || tablet ? 'w-[60%]' : 'w-[43%]'} ${
                 visible ? 'cursor-pointer opacity-100' : 'pointer-events-none opacity-0'
               }`}
               style={{
@@ -280,7 +297,7 @@ function Carousel() {
                   alt={`${study.title} cover plate`}
                   loading="lazy"
                   draggable={false}
-                  className="aspect-[16/10] w-full object-cover object-top select-none"
+                  className="aspect-[16/10] w-full bg-[#fffdf8] object-contain p-2 select-none"
                 />
               </figure>
             </div>
@@ -289,7 +306,7 @@ function Carousel() {
       </div>
 
       {/* ——— info under the image (active project only) ——— */}
-      <div className="relative z-10 mx-auto mt-5 h-[210px] w-[55%]">
+      <div className={`relative z-10 mx-auto ${mobile ? 'mt-14' : tablet ? 'mt-24' : 'mt-5'} ${mobile || tablet ? 'h-auto w-[88%]' : 'h-[210px] w-[55%]'}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={active.slug}
@@ -299,13 +316,13 @@ function Carousel() {
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex items-baseline justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft">
-              <span>Plate {active.num}</span>
+              <span>Project {active.num}</span>
               <span>{active.year}</span>
             </div>
-            <h3 className="mt-2 font-display text-2xl md:text-3xl font-medium tracking-tight">
+            <h3 className="mt-2 font-display text-3xl md:text-4xl font-medium tracking-tight">
               {active.title}
             </h3>
-            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-soft">
+            <p className="mt-2 line-clamp-3 text-base md:text-lg leading-relaxed text-ink-soft">
               {active.standfirst}
             </p>
             <div className="mt-3.5 flex items-center justify-between gap-x-4">
@@ -313,7 +330,7 @@ function Carousel() {
                 {active.tags.slice(0, 3).map((t) => (
                   <li
                     key={t}
-                    className="border border-line px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-ink-soft"
+                    className="border border-line px-2.5 py-0.5 font-mono text-[11px] md:text-xs uppercase tracking-[0.12em] text-ink-soft"
                   >
                     {t}
                   </li>
@@ -328,7 +345,7 @@ function Carousel() {
                   <a
                     href={active.liveUrl}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="group/l font-display text-base italic"
                   >
                     <span className="link-line">Live</span>
@@ -379,7 +396,7 @@ function Carousel() {
   )
 }
 
-function FeaturedWork({ scale }) {
+function FeaturedWork({ scale, mobile = false, tablet = false }) {
   const innerRef = useRef(null)
   const [dim, setDim] = useState({ h: 0, fit: 1 })
   const kicker = `${caseStudies.length} projects`
@@ -413,7 +430,7 @@ function FeaturedWork({ scale }) {
             className="will-change-transform"
           >
             <Reveal>
-              <Carousel scale={scale} />
+              <Carousel scale={scale} mobile={mobile} tablet={tablet} />
             </Reveal>
           </div>
         </div>
@@ -426,8 +443,8 @@ function Skills() {
   return (
     <section className="border-y border-line bg-paper-deep/50 px-5 py-14 md:px-8 md:py-20">
       <div className="mx-auto max-w-6xl">
-        <SectionHeader num="02" title="The Toolkit" kicker="Instruments of the trade" />
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <SectionHeader num="02" title="The Toolkit" />
+        <div className="grid grid-cols-2 gap-6 sm:gap-10 md:grid-cols-4 lg:grid-cols-4">
           {skills.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.05}>
               <h3 className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
@@ -456,7 +473,7 @@ function About() {
         <SectionHeader num="03" title="About the Author" />
         <div className="grid items-start gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-3">
-            <figure className="plate p-3">
+            <figure className="plate mx-auto max-w-[200px] p-3 md:mx-0 md:max-w-none">
               <div className="overflow-hidden">
                 <img
                   src={about.portrait}
@@ -482,9 +499,7 @@ function About() {
                 {about.paragraphs[0]}
               </p>
             </Reveal>
-            <Reveal delay={0.12}>
-              <p className="mt-6 max-w-2xl leading-relaxed text-ink-soft">{about.paragraphs[1]}</p>
-            </Reveal>
+
           </div>
         </div>
 
@@ -513,14 +528,19 @@ export default function Home() {
   const [canvasH, setCanvasH] = useState(0)
   const [marginLeft, setMarginLeft] = useState(0)
   const [heroMinH, setHeroMinH] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
 
   useEffect(() => {
     const measure = () => {
-      // clientWidth = usable width (scrollbar excluded) — canvas never slips under it
-      const s = Math.max(0.34, Math.min(document.documentElement.clientWidth / 1440, (window.innerHeight - 56) / 820))
+      // clientWidth = usable width (scrollbar excluded) — canvas always fits the viewport width
+      const w = document.documentElement.clientWidth
+      const s = Math.min(w / 1440, (window.innerHeight - 56) / 820)
       setScale(s)
-      setMarginLeft(Math.max(0, (document.documentElement.clientWidth - 1440 * s) / 2))
+      setMarginLeft(Math.max(0, (w - 1440 * s) / 2))
       setHeroMinH((window.innerHeight - 56) / s)
+      setIsMobile(w < 1024) // phones + tablets use flow layout
+      setIsTablet(w >= 768 && w < 1024)
       if (canvasRef.current) setCanvasH(canvasRef.current.offsetHeight * s)
     }
     measure()
@@ -534,6 +554,23 @@ export default function Home() {
     }
   }, [])
 
+  // MOBILE — no poster canvas: sections render in normal responsive flow
+  if (isMobile) {
+    return (
+      <div className="mobile-home">
+        <div className="flex flex-col">
+          <Cover />
+          <div>
+            <Ticker />
+          </div>
+        </div>
+        <FeaturedWork scale={1} mobile={isMobile && !isTablet} tablet={isTablet} />
+        <Skills />
+        <About />
+      </div>
+    )
+  }
+
   return (
     <div style={{ height: canvasH }}>
       <div
@@ -543,7 +580,7 @@ export default function Home() {
       >
         <div className="flex h-[700px] flex-col" style={{ minHeight: heroMinH || undefined }}>
           <Cover />
-          <div className="mt-auto pt-6 md:pt-10">
+          <div className="mt-auto">
             <Ticker />
           </div>
         </div>

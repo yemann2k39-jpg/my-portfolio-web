@@ -1,58 +1,76 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Lenis from 'lenis'
 import Nav from './components/Nav.jsx'
+import BackToTop from './components/BackToTop.jsx'
+import BackToProjects from './components/BackToProjects.jsx'
 import Footer from './components/Footer.jsx'
 import Cursor from './components/Cursor.jsx'
 import { SoundProvider } from './components/MusicToggle.jsx'
 import Grain from './components/Grain.jsx'
+import ChatWidget from './components/ChatWidget.jsx'
 import Home from './pages/Home.jsx'
-import CaseStudy from './pages/CaseStudy.jsx'
+// detail page is code-split: only fetched when a case study is opened
+const CaseStudy = lazy(() => import('./pages/CaseStudy.jsx'))
 
-function ScrollManager() {
+function ScrollManager({ ready }) {
   const { pathname, state } = useLocation()
   useEffect(() => {
+    // wait until the curtain has covered and the new page is displayed —
+    // otherwise the OLD page visibly jumps to the top before the animation
+    if (!ready) return
     if (state?.scrollTo) {
-      const t = setTimeout(() => {
+      // the curtain transition delays the page mount — poll until the
+      // target section actually exists, then scroll to it
+      let tries = 0
+      const t = setInterval(() => {
         const el = document.getElementById(state.scrollTo)
-        if (!el) return
-        const top = el.getBoundingClientRect().top + window.scrollY - 14
-        if (window.__lenis) window.__lenis.scrollTo(top, { duration: 1.3 })
-        else el.scrollIntoView({ behavior: 'smooth' })
-      }, 120)
-      return () => clearTimeout(t)
+        if (el) {
+          clearInterval(t)
+          const top = el.getBoundingClientRect().top + window.scrollY - 14
+          if (window.__lenis) window.__lenis.scrollTo(top, { duration: 1.3 })
+          else el.scrollIntoView({ behavior: 'smooth' })
+        } else if (++tries > 25) {
+          clearInterval(t)
+        }
+      }, 100)
+      return () => clearInterval(t)
     }
     window.__lenis?.scrollTo(0, { immediate: true })
     window.scrollTo(0, 0)
-  }, [pathname, state])
+  }, [pathname, state, ready])
   return null
 }
 
-// Center-out transition — ONE movement: the panel grows from the middle of
-// the screen to cover it, the page swaps behind it, then the panel simply
-// dissolves in place. No slide, no second motion.
-function Curtain({ phase, onCovered, onDone }) {
+// Directional sweep transition — a plain full-screen layer slides across
+// (main→detail: sweeps DOWN; detail→main: sweeps UP), the page swaps behind
+// it at full cover, then the layer keeps travelling out the far side. The
+// old page itself never moves.
+function Curtain({ phase, dir, onCovered, onDone }) {
   if (phase === 'idle') return null
   const covering = phase === 'covering'
+  const h = dir === 'left' || dir === 'right'
+  const axis = h ? 'x' : 'y'
+  const enter = !h ? (dir === 'down' ? '-100%' : '100%') : dir === 'left' ? '100%' : '-100%'
+  const exit = !h ? (dir === 'down' ? '100%' : '-100%') : dir === 'left' ? '-100%' : '100%'
   const layers = [
-    { cls: 'bg-accent', delayCover: 0, delayFade: 0.05, complete: false },
-    { cls: 'bg-ink', delayCover: 0.09, delayFade: 0, complete: true },
+    { cls: 'bg-accent', delayCover: 0, delayLeave: 0.03, complete: false },
+    { cls: 'bg-ink', delayCover: 0.05, delayLeave: 0, complete: true },
   ]
   return (
-    <div className="pointer-events-none fixed inset-0 z-[110]">
+    <div className="sweep pointer-events-none fixed inset-0 z-[110]">
       {layers.map((l) => (
         <motion.div
           key={l.cls + phase}
           className={`absolute inset-0 ${l.cls}`}
-          initial={covering ? { scaleY: 0, opacity: 1 } : { scaleY: 1, opacity: 1 }}
-          animate={covering ? { scaleY: 1, opacity: 1 } : { scaleY: 1, opacity: 0 }}
+          initial={{ [axis]: covering ? enter : '0%' }}
+          animate={{ [axis]: covering ? '0%' : exit }}
           transition={{
-            duration: covering ? 0.55 : 0.4,
-            ease: covering ? [0.76, 0, 0.24, 1] : 'easeOut',
-            delay: covering ? l.delayCover : l.delayFade,
+            duration: 0.45,
+            ease: [0.65, 0, 0.35, 1],
+            delay: covering ? l.delayCover : l.delayLeave,
           }}
-          style={{ transformOrigin: 'center' }}
           onAnimationComplete={l.complete ? (covering ? onCovered : onDone) : undefined}
         />
       ))}
@@ -101,6 +119,7 @@ export default function App() {
   const location = useLocation()
   const [display, setDisplay] = useState(location)
   const [phase, setPhase] = useState('idle')
+  const [dir, setDir] = useState('down')
   const [loaded, setLoaded] = useState(false)
   const lenisRef = useRef(null)
 
@@ -124,10 +143,14 @@ export default function App() {
 
   // route change → curtain sweeps in
   useEffect(() => {
-    if (location.pathname !== display.pathname && phase === 'idle') setPhase('covering')
+    if (location.pathname !== display.pathname && phase === 'idle') {
+      const toDetail = location.pathname.startsWith('/work/')
+      const fromDetail = display.pathname.startsWith('/work/')
+      // detail → detail (next/prev project): sweep left/right from the link
+      setDir(fromDetail && toDetail ? location.state?.slide || 'left' : toDetail ? 'down' : 'up')
+      setPhase('covering')
+    }
   }, [location, display, phase])
-
-
   return (
     <SoundProvider>
       <Cursor />
@@ -139,6 +162,7 @@ export default function App() {
       <>
       <Curtain
         phase={loaded ? phase : 'idle'}
+        dir={dir}
         onCovered={() => {
           setDisplay(location)
           lenisRef.current?.scrollTo(0, { immediate: true })
@@ -149,15 +173,18 @@ export default function App() {
       />
 
       <Nav />
-      <ScrollManager />
+      <ScrollManager ready={location.pathname === display.pathname} />
 
       <Routes location={display} key={display.pathname}>
         <Route path="/" element={<Home />} />
-        <Route path="/work/:slug" element={<CaseStudy />} />
+        <Route path="/work/:slug" element={<Suspense fallback={null}><CaseStudy /></Suspense>} />
         <Route path="*" element={<Home />} />
       </Routes>
 
       <Footer />
+      <BackToTop />
+      <BackToProjects />
+      <ChatWidget />
       </>
       )}
     </SoundProvider>

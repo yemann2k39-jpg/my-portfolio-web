@@ -8,8 +8,8 @@ export default function Cursor() {
   const [hovering, setHovering] = useState(false)
   const x = useMotionValue(-100)
   const y = useMotionValue(-100)
-  const ringX = useSpring(x, { stiffness: 260, damping: 26, mass: 0.6 })
-  const ringY = useSpring(y, { stiffness: 260, damping: 26, mass: 0.6 })
+  const ringX = useSpring(x, { stiffness: 420, damping: 32, mass: 0.5 })
+  const ringY = useSpring(y, { stiffness: 420, damping: 32, mass: 0.5 })
 
   useEffect(() => {
     if (!enabled) return

@@ -2,41 +2,70 @@
 // SITE CONTENT — edit this file to update the portfolio.
 // ————————————————————————————————————————————————
 
-export const caseStudies = [
+const studies = [
   {
     slug: 'minipay',
-    num: '01',
+    num: '03',
     title: 'MiniPay',
     standfirst:
-      'A mobile-first digital wallet and merchant payment gateway built on a double-entry ledger core — with a public merchant API, hosted checkout, HMAC-signed callbacks and a Stripe-funded treasury.',
-    tags: ['Full-Stack', 'Payments / Fintech', 'System Design'],
+      'A wallet, merchant gateway and payments backend. A payments project spanning a Flutter wallet, merchant checkout API, hosted payment page and React admin dashboard.',
+    subtitle: 'A wallet, merchant gateway and payments backend.',
+    description: 'A payments project spanning a Flutter wallet, merchant checkout API, hosted payment page and React admin dashboard.',
+    tags: ['Dart', 'NestJS', 'TypeScript', 'PostgreSQL', 'Prisma ORM', 'React 19', 'Vite', 'Stripe API', 'JWT', 'WebSockets-free REST', 'Docker', 'Tailwind CSS'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/minipay.svg',
-    overview: 'A mobile-first digital wallet and merchant payment gateway built on a double-entry ledger core — a Flutter app, a NestJS API and a React admin dashboard in one monorepo, with a public merchant API, hosted checkout, HMAC-signed webhooks and a Stripe-funded treasury.',
-    motivation: 'I wanted to learn how real payment systems actually work. Most apps store a balance column and mutate it — that breaks the moment two requests race, a webhook retries, or a refund partially completes. MiniPay was a deliberate exercise in doing money the way banks do: journal entries, idempotency keys and auditability instead of a number in a column.',
+    cover: 'images/minipay/heroM.webp',
+    mobile: true,
+    phones: [
+      'images/minipay/h2-2.webp',
+      'images/minipay/h2.webp',
+      'images/minipay/h3.webp',
+    ],
+    flow: [
+      { title: 'Mobile', sub: 'Flutter wallet + merchant app' },
+      { title: 'API', sub: 'NestJS / ledger engine' },
+      { title: 'Data', sub: 'PostgreSQL + Prisma' },
+      { title: 'Integrations', sub: 'Stripe, Gemini, merchant callbacks' },
+    ],
+    how: [
+      'Flutter app (one app, two modes): Consumers get a wallet (transfer, scan, request, split), while merchants get a business view (collect payments, sales, payouts, API keys). Talks to the API over REST with JWT.',
+      'NestJS API: The source of truth. All money moves through a double-entry ledger service: each operation writes a journal entry with balanced lines inside a database transaction, protected by idempotency keys and per-account advisory locks so concurrent requests cannot double-spend.',
+      'PostgreSQL via Prisma: 15+ models covering users, wallets (ledger accounts), journal entries, transactions, checkout sessions, merchants, API keys, refresh tokens and notifications.',
+    ],
+    overview: 'A payments project spanning a Flutter wallet, merchant checkout API, hosted payment page and React admin dashboard. Payment correctness depends on invariants — balanced entries, idempotency keys and transaction boundaries matter more than how quickly the payment screen responds.',
+    motivation: 'I wanted to understand what actually happens behind a payment button. MiniPay grew from a wallet experiment into a system with ledger entries, merchant integrations and payment callbacks.',
     stats: [
-      { value: '15', label: 'Prisma models in one schema' },
-      { value: '0', label: 'stored balances — derived from journal lines' },
-      { value: '3', label: 'apps in one monorepo: mobile, API, admin' },
-      { value: '2–10s', label: 'signed webhook retry schedule' },
+      { value: 'Double-entry', label: 'ledger accounting' },
+      { value: 'SGD only', label: 'currency (test payments)' },
+      { value: '33', label: 'passing API unit tests' },
     ],
     architecture: {
       diagram: 'images/minipay/architecture.svg',
       points: [
-        'Balances derive from balanced journal lines — a ledger-invariant endpoint re-verifies the math after any movement.',
-        'Deposits are credited only by the signature-verified Stripe webhook: the single writer, idempotent by payment-intent ID.',
-        'Per-account Postgres advisory locks, sorted to prevent deadlocks, serialize concurrent postings.',
+        'Every money movement creates balanced journal lines — wallet balances are calculated from those lines rather than stored as a mutable balance field. Ledger totals remain auditable, but reads require aggregation.',
+        'PostgreSQL advisory transaction locks serialize operations touching the same accounts, with deterministic lock order to avoid deadlocks — two transfers can never both spend the same available balance.',
+        'Unique idempotency keys prevent duplicate ledger posting; hosted checkout uses signed callbacks with retries and an API polling fallback. Callback delivery still needs a durable outbox for crash recovery.',
       ],
     },
     features: [
-      { title: 'Double-Entry Ledger Core', text: 'No balance column exists: balances derive from balanced journal lines, and an invariant endpoint proves every entry balances and no wallet goes negative.', img: 'images/minipay/vid-ledger.svg', video: true },
-      { title: 'Merchant Gateway & Hosted Checkout', text: 'Hashed API keys, a hosted checkout page and HMAC-SHA256 signed callbacks with retries — settled through an atomic status claim.', img: 'images/minipay/vid-checkout.svg', video: true },
-      { title: 'Concurrency-Safe Transfers', text: 'Advisory locks serialize postings; idempotency keys make retried webhooks or double-submits impossible to post twice.', img: 'images/minipay/vid-transfers.svg', video: true },
-      { title: 'AI Receipt Splitting', text: 'A receipt photo goes to Gemini’s vision model server-side; a unit-tested calculator splits shares with exact-sum guarantees.', img: 'images/minipay/vid-split.svg', video: true },
+      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['images/minipay/doubleL1.webp', 'images/minipay/doubleL2.webp'], video: true },
+      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: 'images/minipay/p2p.webm', video: true, cover: true }], video: true },
+      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: 'images/minipay/qrPayment.webm', video: true, cover: true }], video: true },
+      { title: 'Scan & split', text: 'Snap a photo of a receipt and server-side AI reads the line items, splits the total across the group and creates a request, so settling up takes one tap.', img: [{ src: 'images/minipay/splitBill.mp4', video: true, cover: true }], video: true },
+    ],
+    preview: [
+      { title: 'Double-entry ledger', text: 'Every money movement posts balanced journal lines, so balances are always derived from the ledger and never stored.', img: ['images/minipay/doubleL1.webp', 'images/minipay/doubleL2.webp'] },
+      { title: 'P2P transfers', text: 'Send money by email or contact lookup, authorize with fingerprint or PIN, and stay inside server-enforced daily spend limits.', img: [{ src: 'images/minipay/p2p.webm', video: true, cover: true }] },
+      { title: 'QR payments & gateway', text: 'Scan to pay at merchant checkouts or show your personal receive-money QR, backed by a hosted merchant checkout and a public REST API.', img: [{ src: 'images/minipay/qrPayment.webm', video: true, cover: true }] },
+      { title: 'Hardened security', text: 'Rotating refresh-token sessions with device tracking, bcrypt payment PINs, biometric app unlock and forgot-PIN recovery.', img: 'images/minipay/setting.webp' },
+      { title: 'Merchant gateway', text: 'Register a business, open collect-payment QR sessions and integrate through API keys on the hosted checkout page.', img: ['images/minipay/merchant.webp', 'images/minipay/merchantAPI.webp'] },
+      { title: 'Scan & split', text: 'Scan a shared receipt, let AI split it by line items, split the total across the group and create a request, all in just one tap', img: [{ src: 'images/minipay/splitBill.mp4', video: true, cover: true }] },
+      { title: 'Refunds, payouts & deposits', text: 'Refund claims are atomic with automatic ledger rollback on failure, while card deposits via Stripe PaymentIntents credit wallets through a single writer.', img: ['images/minipay/myQR.webp', 'images/minipay/refund.webp', 'images/minipay/deposite.webp'] },
+    { title: 'Know Your Money', text: 'A month-by-month view of your spending with inflow, outflow and net totals, daily and per category breakdowns, plus a searchable transaction history with filters, so every dollar is easy to find and every month is easy to understand.', img: ['images/minipay/monthlyReport.webp', 'images/minipay/history.webp'] },
     ],
 
     liveUrl: null,
+  githubUrl: 'https://github.com/yemann2k39-jpg/minipay',
     problem:
       'Money features in most apps store a balance column and mutate it. That breaks down the moment two requests race, a webhook retries, or a refund partially completes: balances drift, transfers double-post, and nobody can prove the books are consistent. Small merchants also lack a simple, programmable way to accept wallet payments and get notified reliably.',
     solution:
@@ -111,78 +140,127 @@ export const caseStudies = [
     ],
     challenges: [
       {
-        title: 'Balances that can\u2019t race or double-post',
-        text: 'Mutable balance columns fail under concurrency and retries. Solving this meant deriving balances from journal lines, serializing postings with per-account advisory locks taken in sorted order (deadlock prevention), and short-circuiting duplicate idempotency keys inside the same transaction. A GET /ledger/invariant endpoint proves the invariant after any money change during testing.',
+        title: 'Derived balances over stored balances',
+        text: 'Balance is the sum of ledger lines: slower to read, but mathematically impossible to drift out of sync, and a single invariant endpoint can prove the whole ledger balances.',
+        note: 'Ledger totals remain auditable, but reads require aggregation.',
       },
       {
-        title: 'Asset vs liability direction',
-        text: 'Deposits initially failed with \u201cinsufficient funds\u201d because the treasury (an asset) was treated like a wallet (a liability). The fix was respecting each account kind\u2019s natural direction — debits increase assets, credits increase liabilities — which is the kind of bug that makes double-entry bookkeeping worth the upfront cost.',
+        title: 'Idempotency keys and advisory locks on every write',
+        text: 'Retried webhooks or double-tapped buttons can never post twice. Postgres row locks alone were not enough for multi-row journal writes, so sorted advisory locks per account prevent deadlocks between concurrent transfers.',
+        note: 'Two transfers can never both spend the same available balance.',
       },
       {
-        title: 'Refunds that either fully happen or don\u2019t',
-        text: 'A refund is two writes: flip the sale to REFUNDED and post a balanced REFUND ledger entry. Doing them naively can strand a refunded sale without a ledger rollback. The implementation claims the sale atomically with a status-guarded update, posts the ledger entry, and rolls the claim back if the posting fails.',
+        title: 'Webhook as the single credit writer',
+        text: 'Stripe deposits credit wallets only through the signature-verified webhook (raw body preserved for verification), never from client responses.',
+        note: 'One writer eliminates a whole class of race conditions.',
       },
       {
-        title: 'Webhooks you can\u2019t trust twice',
-        text: 'Stripe retries webhooks, so crediting on every call would double-deposit. The webhook is the only code path that credits deposits, every credit is idempotent by payment-intent ID, and the raw body is preserved through a custom JSON parser so signature verification never sees a re-serialized payload.',
-      },
-      {
-        title: 'When the ORM fights the database',
-        text: 'pg_advisory_xact_lock() returns void, which Prisma cannot deserialize — wrapping it in CAST(... AS TEXT) made advisory locking usable through the ORM. Similarly, a wrong payment PIN returning 401 made the mobile client treat it as an expired session and rotate tokens; PIN rejection became a 400 business error, cleanly separating \u201cwrong input\u201d from \u201cnot authenticated\u201d.',
+        title: 'Hashed secrets and one role-based app',
+        text: 'Refresh tokens and API keys are stored as SHA-256 hashes, so a database leak cannot be replayed. Merchants are users with a shop rather than a separate app, which halved the codebase.',
+        note: 'Refunds flip PAID\u2192REFUNDED with one atomic conditional update, rolled back if the ledger write fails.',
       },
     ],
+    learn: 'Payment correctness depends on invariants. Balanced entries, idempotency keys and transaction boundaries matter more than how quickly the payment screen responds.',
+    learnList: [
+      'Money needs a different mindset: every mutation is asked what happens if it runs twice, concurrently, or crashes halfway.',
+      'A checksum beats hope: the ledger invariant endpoint caught real bugs that UI testing never would have surfaced.',
+      'Boring choices scale well: BigInt minor units (no floats, ever) and one currency kept the money math airtight.',
+      'Shipping to a real phone for every feature caught integration bugs no emulator showed.',
+    ],
+    learnListStyle: 'numbered',
+    limits: [
+      'Test-mode payments only, not real-money operation.',
+      'SGD only and full refunds only.',
+      'Callbacks have retries but no persistent outbox.',
+      'No end-to-end CI pipeline.',
+    ],
+    next: [
+      'Durable callback queue and replay tooling.',
+      'Partial refunds and stronger merchant-secret handling.',
+      'API rate limits, migrations and broader automated testing.',
+    ],
     testing:
-      'A Node end-to-end script (apps/api/scripts/verify-checkout.js) exercises the whole merchant flow live: admin key rotation, checkout creation via X-API-Key, a local callback listener that verifies the HMAC signature header, in-app payment, and status polling. Further scripts cover account-freeze enforcement and the bill-split lifecycle (creator-as-shareholder, discount/exact-sum math, re-send rules). Jest unit specs cover the split calculator\u2019s share computation and API-key format/hashing.',
+      'Two Jest unit-test suites contain 33 passing tests for bill splitting and merchant API validation and cryptography. The project also includes verification scripts, but not a full end-to-end automated test pipeline.',
     future: [
       {
-        title: 'Durable Webhook Delivery',
-        text: 'Persisting callback deliveries with an exponential-backoff retry queue and merchant-visible delivery logs, instead of the current in-process retry schedule.',
+        title: 'Durable callback delivery',
+        text: 'Callbacks have retries but no persistent outbox — add a durable callback queue with replay tooling and merchant-visible delivery logs.',
       },
       {
-        title: 'Partial Refunds & Payout Rails',
-        text: 'Extending the full-refund flow to partial amounts, and moving withdraw-to-wallet payouts onto external payout rails with their own ledger account types.',
+        title: 'Partial refunds & key handling',
+        text: 'Payments are test-mode only today, SGD-only with full refunds — extend to partial refunds and stronger merchant-secret handling.',
       },
       {
-        title: 'OS-Level Deep Links & Production Key Storage',
-        text: 'Registering minipay:// URIs as Android app links so checkout QRs open outside the in-app scanner, and encrypting the callback-signing copy of merchant API keys at rest.',
+        title: 'Hardening & broader testing',
+        text: 'API rate limits, migrations and broader automated testing — there is no end-to-end CI pipeline yet.',
       },
     ],
   },
   {
     slug: 'lil-routine',
-    num: '02',
+    num: '04',
     title: 'LilRoutine',
     standfirst:
-      'A local-first, pixel-art water / calorie / habit tracker for Android — every insight computed on-device from a unified SQLite log, with an optional bring-your-own-key Gemini layer for AI food logging and a weekly coach recap.',
-    tags: ['Mobile App', 'Local-First Data', 'AI / LLM'],
+      'A quieter way to track everyday habits. A cozy, offline-first Android app for water and meal tracking, with progress insights, a reactive mascot and optional Gemini-assisted food logging.',
+    subtitle: 'A quieter way to track everyday habits.',
+    description: 'A cozy, offline-first Android app for water and meal tracking, with progress insights, a reactive mascot and optional Gemini-assisted food logging.',
+    tags: ['Flutter', 'SQLite', 'Gemini REST API', 'Local-First'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/lil-routine.svg',
+    cover: 'images/lil-routine/cover-hero.webp',
     mobile: true,
-    overview: 'A local-first, pixel-art water, calorie and habit tracker for Android — every insight is computed on-device from one unified SQLite log, with an optional bring-your-own-key AI layer for food logging and a weekly coach recap.',
-    motivation: 'Tracking data is private by nature, and habit apps must work offline. I built LilRoutine to prove two things: that deterministic math can coach better than hallucinated tips, and that AI should be an opt-in layer you bring a key to — not an account you surrender your food history to.',
+    phones: [
+      'images/lil-routine/hero-1.webp',
+      'images/lil-routine/hero-2.webp',
+      'images/lil-routine/hero-3.webp',
+    ],
+    flow: [
+      { title: 'Android UI', sub: 'Flutter screens and widgets' },
+      { title: 'Services', sub: 'repositories, insights, reminders' },
+      { title: 'Local data', sub: 'SQLite + secure key storage' },
+      { title: 'Optional AI', sub: 'Gemini REST API' },
+    ],
+    how: [
+      'Database: One SQLite file is the whole system of record. A unified entries table holds both water drinks and food meals, plus tables for the food library, quick-slots, habits and settings.',
+      'Repositories: Repositories wrap every query, and screens load data to hand plain numbers to pure-UI views, which is what makes the dashboards testable without a database.',
+      'Insight engine: A pure function, with a week of entries in and prioritized coaching cards out. No I/O, no AI.',
+      'AI provider: Makes exactly two calls (food estimate, weekly recap) straight to Gemini\u2019s REST endpoint, locked behind a gate until a key exists in secure storage.',
+      'Reminder service: Applies the stored schedule on every launch and checks Android\u2019s exact-alarm and battery-optimization realities.',
+    ],
+    overview: 'A cozy, offline-first Android app for water and meal tracking, with progress insights, a reactive mascot and optional Gemini-assisted food logging. A local-first app can stay simple if the database is treated as the source of truth — and it taught me to test device behavior, not just business logic.',
+    motivation: 'I wanted a small tracker I could actually enjoy opening each day, without accounts, syncing or a mandatory cloud service.',
     stats: [
-      { value: '119', label: 'Flutter tests, all green' },
-      { value: '1', label: 'unified SQLite log for water + food' },
-      { value: 'v1→v3', label: 'on-device migrations, tested' },
-      { value: 'BYO', label: 'Gemini key — AI is opt-in' },
+      { value: 'Android', label: 'platform' },
+      { value: 'Local SQLite', label: 'data — the source of truth' },
+      { value: '119', label: 'passing tests' },
     ],
     architecture: {
       diagram: 'images/lil-routine/architecture.svg',
       points: [
-        'One unified entries table drives rings, charts, streaks and insights through SQL aggregates.',
-        'Schema migrations run on-device (v1→v3) and are themselves covered by tests.',
-        'An AiProvider gate keeps every AI surface locked until a key exists — fully functional with zero AI.',
+        'The app writes through repositories, then reloads aggregates from the local database — there is no remote account or synchronization layer to maintain. Local-first design keeps the everyday experience offline.',
+        'Deterministic code computes insights; Gemini receives limited, numbers-based context for optional weekly recaps. The app does not depend on AI for its core math.',
+        'Android alarm permissions, battery-optimization checks and schedule reapplication address reminders being delayed or stopped by the OS — device behavior mattered more than emulator behavior.',
       ],
     },
     features: [
-      { title: 'Unified Daily Log & Food Library', text: 'Water and meals share one log; log “ramen” once and it becomes a two-tap relog with every macro remembered.', img: 'images/lil-routine/ph-log.svg', video: true },
-      { title: 'AI Food Logging (BYO key)', text: 'A photo becomes pre-filled macros for review — nothing saves until you confirm, and the key never leaves secure storage.', img: 'images/lil-routine/ph-ai.svg', video: true },
-      { title: 'Deterministic Insight Engine', text: 'Water timing, late-night snacking, cross-domain hydration nudges — arithmetic over your own logs, backed by 18 unit tests.', img: 'images/lil-routine/ph-insights.svg', video: true },
-      { title: 'Streak Economy & Pixel Mascot', text: 'A forgiving 3-hearts weekly streak and a mascot whose mood follows an exact, hour-aware pace model.', img: 'images/lil-routine/ph-streak.svg', video: true },
+      { title: 'Instant water logging', text: 'Tap a cup, the ring and mascot react instantly. Undo and per-drink delete included.', img: ['images/lil-routine/waterLog.webp'], video: true },
+      { title: 'Full macro meal log', text: 'Log “ramen” once, relog it in two taps with every macro remembered. New meals come from an AI photo estimate (your own Gemini key), reviewed before saving.', img: ['images/lil-routine/mealLog.webp', 'images/lil-routine/macroMealLog.webp'], video: true },
+      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['images/lil-routine/waterDashboard.webp', 'images/lil-routine/mealDashboard.webp'], video: true },
+      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: 'images/lil-routine/mascot.webm', video: true, cover: true }], video: true },
+    ],
+    preview: [
+      { title: 'Instant water logging', text: 'Tap a cup and the ring and mascot react instantly, with undo and per-drink delete for mistakes. Logging water takes one tap, not a form.', img: ['images/lil-routine/waterLog.webp'] },
+      { title: 'Full macro meal log', text: 'Every meal is logged with full macros: protein, carbs, fat, fiber, sugar and sodium, with portion scaling and full edit-after-log support.', img: ['images/lil-routine/mealLog.webp', 'images/lil-routine/macroMealLog.webp'] },
+      { title: 'Dashboards and insights', text: 'Swipeable 7-day bars for water, kcal and macro splits, backed by insights that advise across both logs: a salty day suggests extra water. All plain math, never hallucinated.', img: ['images/lil-routine/waterDashboard.webp', 'images/lil-routine/mealDashboard.webp'] },
+      { title: 'A mascot on your side', text: 'Lil Drop reacts to your real pace, with 3 forgiving weekly hearts and offline water reminders that survive Android\u2019s battery rules.', img: [{ src: 'images/lil-routine/mascot.webm', video: true, cover: true }] },
+      { title: 'Learned food library', text: 'Log \u201cramen\u201d once and it becomes a two-tap relog, with every macro remembered for next time.', img: ['images/lil-routine/FoodLibiary.webp'] },
+      { title: 'AI food logging', text: 'A photo or a short description becomes a pre-filled estimate that you review before anything saves. It runs on your own Gemini key, so nothing is required from the app to work.', img: ['images/lil-routine/aiLog.webp'] },
+      { title: 'Weekly AI coach recap', text: 'Once every 7 days, Gemini turns the week\u2019s aggregate numbers into personalized tips, never seeing individual food names.', img: ['images/lil-routine/aiCoach.webp'] },
+      { title: 'Water reminders', text: 'Repeating reminders powered by Android exact alarms, with battery-optimization handling so they survive OEM restrictions.', img: ['images/lil-routine/notification.webp'] },
     ],
 
     liveUrl: null,
+  githubUrl: 'https://github.com/yemann2k39-jpg/lil_routine',
     problem:
       'Most tracking apps are accounts-plus-cloud: your daily water and meal log lives on someone else\u2019s server, the app nags you with streak-shaming, and the \u201csmart insights\u201d are either hardcoded tips or require handing your food history to a backend. For a personal habit tracker, that\u2019s the wrong trade — the data is private by nature, the app must work offline, and AI should be an opt-in layer, not a requirement.',
     solution:
@@ -256,85 +334,118 @@ export const caseStudies = [
     ],
     challenges: [
       {
-        title: 'One table for water and food, without chaos',
-        text: 'Two entry types could have become two parallel tables and duplicated every query. The unified entries table keeps the daily log, undo, day sheets and history dashboards as single queries filtered by type — at the cost of nullable columns, which the repository layer hides behind typed models (Entry.isWater, effectiveKcal) so callers never branch on raw rows.',
+        title: 'One table for water and food, not two',
+        text: 'Every chart, streak and day sheet stays a single query, with the cost of nullable columns hidden behind typed models.',
+        note: 'Single-source data keeps every screen consistent.',
       },
       {
-        title: 'AI answers you can actually parse',
-        text: 'LLM answers arrive wrapped in prose or markdown fences, and hallucinated shapes are inevitable. Every AI path extracts the first JSON object, validates field-by-field with typed fallbacks (unknown meal \u2192 snack, zero portion \u2192 1, non-numeric \u2192 parse-or-zero), and turns any failure into a friendly message instead of a crash — verified against MockClient tests for block responses, bad keys, rate limits and non-JSON answers.',
+        title: 'Local-first, no accounts',
+        text: 'A habit log is private by nature. The app works fully offline with zero configuration.',
+        note: 'No remote account or synchronization layer to maintain.',
       },
       {
-        title: 'Personalization that can\u2019t hallucinate',
-        text: 'Coaching insights made of arithmetic (timing shares, streaks, macro contrasts) don\u2019t need a model — and deterministic rules can be unit-tested to the assertion. The split: rules compute, AI narrates. The weekly recap only ever sees aggregate numbers, gets an explicit \u201cthis week specifically, mention real numbers, never invent data\u201d instruction, and its output is shape-validated before caching.',
+        title: 'Rules compute, AI narrates',
+        text: 'Arithmetic insights are unit-testable and cannot hallucinate. The AI recap only sees aggregate numbers, and an estimate is never auto-saved without confirmation.',
+        note: 'The app does not depend on AI for its core math.',
       },
       {
-        title: 'A schedule Android wants to kill',
-        text: 'The repeating reminder silently stopped on a Samsung device: the OEM battery manager freezes the app and queues the alarm broadcasts. The fix combines exact-alarm permission routing (the system settings page), a battery-optimization exemption check exposed through a method channel, and re-applying the stored schedule on every app start so settings and reality can\u2019t drift.',
-      },
-      {
-        title: 'Charts that tests can see',
-        text: 'The meals dashboard swaps pages in a swipeable PageView, which builds lazily — widget tests can\u2019t find page-2 widgets until a fling happens. Tests drive the gesture (tester.fling + pumpAndSettle) and then assert the macro page\u2019s gram labels, and the fixed-height chart math (goal line, in-bar labels, segment heights) was tuned against real layout overflow errors surfaced by those same tests.',
+        title: 'Reminders on real Android devices',
+        text: 'Exact-alarm permissions, battery-optimization checks and schedule reapplication address reminders being delayed or stopped by the OS.',
+        note: 'Device behavior mattered more than emulator behavior.',
       },
     ],
+    learn: 'A local-first app can stay simple if the database is treated as the source of truth. It also taught me to test device behavior, not just business logic.',
+    learnList: [
+      'A local-first app stays simple when the database is treated as the source of truth.',
+      'Deterministic rules should coach, while AI should only explain.',
+      'Test device behavior on real hardware, not just business logic in the emulator.',
+    ],
+    learnListStyle: 'numbered',
+    limits: [
+      'Android-only and not released to an app store.',
+      'Habit data structures exist, but the habit interface is not yet available.',
+      'No backup/export or CI pipeline.',
+      'Some goal and profile settings are still incomplete.',
+    ],
+    next: [
+      'Finish the habit interface and mascot states.',
+      'Data export and backup.',
+      'Release preparation and device integration tests.',
+    ],
     testing:
-      '119 Flutter tests, all green with a clean analyzer: pure-logic units (insight engine rules, mascot mood machine, streak/hearts engine, JSON parsers), repository + migration tests against real in-memory SQLite (sqflite_common_ffi, including PRAGMA assertions on the v2\u2192v3 path), GeminiProvider tests over MockClient (success, fences, bad key, rate limit, blocked, non-JSON), and widget tests that pump full dashboards from fixtures — including driving a PageView fling to reach the lazily-built macro chart page.',
+      '119 Flutter tests cover rules, repository and migration logic, Gemini response handling and widget interactions. Static analysis passes. The app has been installed and launched on a physical Android device, though CI and device integration tests are not yet in place.',
     future: [
       {
-        title: 'AI Food Swaps',
-        text: 'Tap a logged meal for a \u201clighter version / more protein\u201d suggestion from the same provider, reusing the existing estimate-parse-confirm pipeline.',
+        title: 'Finish the habit interface',
+        text: 'Habit data structures exist, but the habit interface is not yet available — plus mascot states and some incomplete goal and profile settings.',
       },
       {
-        title: 'Ask-the-Coach Chat',
-        text: 'Productize the existing debug AI chat into a small coach screen with today\u2019s aggregate stats injected as context.',
+        title: 'Data export & backup',
+        text: 'No backup or export path today — add both before any wider release.',
       },
       {
-        title: 'Habits & Mood System',
-        text: 'The schema and repositories for habits already exist; the remaining work is the UI plus the reserved mascot expressions (sad art is shipped but unused), and moving the pinned water goal to full profile management in settings.',
+        title: 'Release preparation',
+        text: 'Android-only and not released to an app store — release preparation and device integration tests come next, along with CI.',
       },
     ],
   },
   {
     slug: 'sus-url-shortener',
-    num: '03',
+    num: '01',
     title: 'Sus URL Shortener',
     standfirst:
-      'A Next.js URL shortener with a prank twist — "sus" links show a deadpan warning interstitial before they (almost certainly) lead to the real site — built on Feistel-cipher collision-free codes, a swappable single-file storage layer, and from-scratch scrypt auth.',
-    tags: ['Full-Stack Web', 'Databases', 'Security'],
+      'Perfectly normal links. Questionable presentation. A playful link shortener that turns ordinary URLs into suspicious-looking links, with an optional warning screen before the redirect.',
+    subtitle: 'Perfectly normal links. Questionable presentation.',
+    description: 'A playful link shortener that turns ordinary URLs into suspicious-looking links, with an optional warning screen before the redirect.',
+    tags: ['Next.js 15', 'React 19', 'JavaScript', 'LibSQL/Turso', 'Brevo Email API', 'Edge Middleware'],
     year: '2026',
-    role: 'Solo Design & Engineering',
-    cover: 'images/sus-url-shortener.svg',
-    mobile: true,
-    overview: 'A Next.js URL shortener where every link goes exactly where it claims — with an optional deadpan “sus” interstitial for comedy. Underneath: collision-free code generation, real accounts, buffered analytics and a documented scaling path.',
-    motivation: 'Built for fun first: hobby shorteners are usually CRUD demos, and I wanted one that is genuinely playful yet engineered like a production service. It became an experiment in how far a “one small script” can be pushed before it is real infrastructure — codes, cache, counters, auth and rate limits all hand-rolled.',
+    role: 'Solo developer — design, frontend, backend, database and deployment',
+    cover: 'images/sus/hero-maxchaos.webp',
+    how: [
+      'Frontend: Next.js 15 App Router + React 19. Server components render the dashboard and redirect pages, while small client components handle the create form, QR modal and verification polling',
+      'Backend: nine /api route handlers (auth, links, hits) behind edge middleware that rate-limits by IP before any database work',
+      'Database: LibSQL (SQLite dialect) with four tables. Users, sessions, verification_tokens, links carry an owner_key so every query is owner-scoped',
+      'Storage is one swappable module: remote Turso in production, local SQLite in dev, same code',
+      'Hot path: LRU+TTL cache answers repeat lookups, and clicks buffer in memory to flush every 5 seconds as one batched transaction, so redirects never write to disk',
+      'External: Brevo HTTP API sends verification emails, while QR codes are fully client-side',
+    ],
+    flow: [
+      { title: 'Browser', sub: 'Next.js pages and forms' },
+      { title: 'Server', sub: 'auth, links and redirect handlers' },
+      { title: 'Data', sub: 'Turso / LibSQL' },
+      { title: 'Email', sub: 'Brevo verification' },
+    ],
+    overview: 'A playful link shortener that turns ordinary URLs into suspicious-looking links, with an optional warning screen before the redirect. I learned that choosing the right identifier strategy can remove an entire category of bugs instead of adding more checks.',
+    motivation: 'I wanted to make a simple internet joke into a working product. The fun part was figuring out how to keep link generation predictable and redirects fast.',
     stats: [
-      { value: '0', label: 'collision checks — unique by construction' },
-      { value: '1 INSERT', label: 'to create a link, forever' },
-      { value: '5s', label: 'buffered click flush, one transaction' },
-      { value: '56 lines', label: 'hand-rolled LRU+TTL cache' },
+      { value: '6 characters', label: 'short code' },
+      { value: '307 / warning', label: 'redirect modes' },
+      { value: 'SQLite + Turso', label: 'storage' },
     ],
     architecture: {
       diagram: 'images/sus/architecture.svg',
       points: [
-        'Single-file storage: the engine swaps by rewriting one module — proven when node:sqlite became LibSQL/Turso.',
-        'Edge middleware rate-limits every hit before the redirect route runs.',
-        'Auth from scratch: scrypt hashing, SHA-256-hashed tokens, single-use email verification.',
+        'The database ID is scrambled with a Feistel permutation and encoded as Base62 — every short code is unique without generating random candidates or checking for collisions. A permutation masks sequential IDs, but it is obfuscation rather than encryption.',
+        'An LRU cache handles recent link lookups; click totals are buffered and written in batches every five seconds. A server restart can lose a small window of click counts.',
+        'The same LibSQL client connects to a local SQLite file during development and Turso in production — only the database connection settings need to change.',
       ],
     },
     features: [
-      { title: 'Create', text: 'One INSERT: the rowid is scrambled through a 4-round Feistel network into a unique 6-character code.', img: 'images/sus/ph-create.svg' },
-      { title: 'Share', text: 'Instant redirects — or the deadpan sus interstitial, naming the real host behind a “Continue” button.', img: 'images/sus/ph-share.svg', video: true },
-      { title: 'Click', text: 'An LRU cache answers the hot path; a miss hits one indexed query. Misses are never cached.', img: 'images/sus/ph-click.svg' },
-      { title: 'Count', text: 'Clicks buffer in memory and flush every 5 seconds as one batched transaction.', img: 'images/sus/ph-count.svg' },
+      { title: 'Instant shortening', text: 'Create a short link with an optional custom name and a unique 6-character code, shortened instantly. QR codes are generated client-side, with instant preview and a downloadable 480px PNG on the result screen and in the dashboard modal.', img: ['images/sus/instantShortening1.webp', 'images/sus/instantShortening2.webp'] },
+      { title: 'Suspicious-link warning', text: 'Sus-mode links stop at a deadpan warning page naming the real destination host before the Continue button, turning an ordinary redirect into part of the joke. One dynamic route serves both instant and warning modes.', img: ['images/sus/sus-interstitial.webp'] },
+      { title: 'Link management dashboard', text: 'Manage personal links, check click counts, copy URLs, generate QR codes and delete links with a two-step confirmation.', img: ['images/sus/dashboard.webp'] },
+      { title: 'Account verification', text: 'Email-verified accounts with scrypt hashing, hashed single-use tokens and remember-me sessions keep every link tied to the right owner through an owner-scoped dashboard.', img: ['images/sus/verifyEmail.webp', { src: 'images/sus/verifyEmail2.webp', fit: 'contain-white' }, 'images/sus/emailVerified.webp'] },
     ],
 
     liveUrl: null,
+    githubUrl: 'https://github.com/yemann2k39-jpg/sus-url-shortener',
     hero: 'images/sus/hero.svg',
     story: {
       steps: [
         {
           title: 'Create',
           text: 'One INSERT. The link\u2019s rowid is scrambled through a 4-round Feistel network into a unique 6-character code — no collision checks, ever.',
-          img: 'images/sus/ph-create.svg',
+          img: 'images/sus/step-1-create.svg',
         },
         {
           title: 'Share',
@@ -344,12 +455,12 @@ export const caseStudies = [
         {
           title: 'Click',
           text: 'An in-memory LRU cache answers the hot path; a miss hits one indexed query. Misses are never cached, so fresh links can\u2019t be shadowed.',
-          img: 'images/sus/ph-click.svg',
+          img: 'images/sus/step-3-click.svg',
         },
         {
           title: 'Count',
           text: 'Clicks buffer in memory and flush every 5 seconds as one batched transaction — counting never slows the redirect.',
-          img: 'images/sus/ph-count.svg',
+          img: 'images/sus/step-4-count.svg',
         },
       ],
       stats: [
@@ -359,7 +470,7 @@ export const caseStudies = [
         { value: '56 lines', label: 'hand-rolled LRU+TTL cache' },
       ],
       videos: [
-        { title: 'The sus interstitial, live', img: 'images/sus/ph-share.svg' },
+        { title: 'The sus interstitial, live', img: 'images/sus/video-interstitial.svg' },
         { title: 'Dashboard, QR codes & two-step delete', img: 'images/sus/video-dashboard.svg' },
       ],
       highlight: {
@@ -369,17 +480,52 @@ export const caseStudies = [
       },
     },
     stack: [
-      { label: 'Framework', items: ['Next.js 15 (App Router)', 'React 19 client components', 'Server-rendered pages'] },
+      { label: 'Framework', items: ['Next.js 15 (App Router)', 'React 19 client components', 'Vercel (hosting)'] },
       { label: 'Data', items: ['SQLite via LibSQL (dual-mode)', 'Turso when configured', 'Buffered click counting', 'Hand-rolled LRU+TTL cache'] },
-      { label: 'Auth & Security', items: ['scrypt password hashing', 'SHA-256-hashed session tokens', 'Edge rate limiting'] },
+      { label: 'Auth & Security', items: ['scrypt password hashing', 'SHA-256-hashed session tokens', 'Edge rate limiting', 'Email verification gate'] },
       { label: 'Integrations', items: ['Brevo verification email', 'qrcode (client-side PNGs)'] },
     ],
     testing:
-      'A curl-based end-to-end script drives registration, auth, duplicate detection and rate-limit behaviour with PASS/FAIL per check, plus a smoke test against a real remote Turso database.',
+      'Manual but explicit: a curl end-to-end suite covers registration validation, duplicates, session auth, hash-leak checks, logout and rate limits, with PASS/FAIL per check. A one-shot smoke test runs create, get and delete against the real remote Turso database. No automated framework or CI yet, so the suites run manually before each deploy.',
     problem:
       'Most hobby URL shorteners are CRUD demos: random collision-prone codes checked with retry loops, click counters that write to disk on the hot path, no real accounts, and sessions stored in plaintext. I wanted one that is genuinely fun — every link goes where it claims, the vibe is the only thing that changes — but engineered underneath like a production service: collision-free code generation, email-verified accounts, hashed credentials, rate limiting on every endpoint, and an honest scaling path.',
     solution:
       'Sus URL Shortener is a Next.js 15 App Router application (JavaScript, React 19 client components, server-component pages) with hand-written neo-brutalist CSS and no UI framework. Its signature idea is the code generator: each link\u2019s AUTOINCREMENT rowid is scrambled through a 4-round Feistel network over a 2^34 space and Base62-encoded to exactly 6 characters, so codes are unique by construction and creating a link is a single INSERT with zero collision checks. All storage is isolated in one file behind a dual-mode LibSQL driver — remote Turso when configured, a local SQLite file otherwise — with a real migration history: the original node:sqlite build was swapped to @libsql/client by reimplementing that single module, and a legacy links.json store was imported into SQLite on first boot. Auth (scrypt hashing, SHA-256-hashed tokens, email verification via the Brevo HTTP API) is built from scratch with no auth library; QR codes render client-side with the qrcode package.',
+    challenges: [
+      {
+        title: 'Unique links without retry loops',
+        text: 'The database ID is scrambled with a Feistel permutation and encoded as Base62. Every short code is unique without generating random candidates or checking for collisions.',
+        note: 'A permutation masks sequential IDs, but it is obfuscation rather than encryption.',
+      },
+      {
+        title: 'Keep redirects lightweight',
+        text: 'An LRU cache handles recent link lookups. Click totals are buffered and written in batches every five seconds.',
+        note: 'A server restart can lose a small window of click counts.',
+      },
+      {
+        title: 'Local development, remote production',
+        text: 'The same LibSQL client connects to a local SQLite file during development and Turso in production.',
+        note: 'Only the database connection settings need to change.',
+      },
+    ],
+    learn: 'I learned that choosing the right identifier strategy can remove an entire category of bugs instead of adding more checks.',
+    learnList: [
+      'Designing for correctness at the data-model level removes whole classes of bugs.',
+      'Cache correctness has subtleties most demos get wrong: caching a miss is dangerous.',
+      'Security details compound: each safeguard closes a specific hole.',
+    ],
+    learnListStyle: 'numbered',
+    limits: [
+      'Rate limiting, cache and click buffers are held per instance.',
+      'Links cannot be edited after creation.',
+      'Analytics currently show click counts, not trends over time.',
+      'No CI pipeline.',
+    ],
+    next: [
+      'Shared cache and rate limiting with Redis.',
+      'Per-link analytics and link editing.',
+      'Automated tests in CI.',
+    ],
     deepDive: {
       features: [
       {
@@ -457,79 +603,86 @@ export const caseStudies = [
     ],
     challenges: [
       {
-        title: 'Collision-free codes without existence checks',
-        text: 'The usual generate-random-and-SELECT loop gets slower as the table grows and still needs retry handling. Reframing the code as a Feistel permutation of the primary key eliminates the problem class: Feistel networks are bijective by construction, so uniqueness is inherited from the rowid and a link is one INSERT. The tradeoff is stated honestly in the code: the cipher is obfuscation, not encryption — codes are scrambled, not secret.',
+        title: 'Unique links without retry loops',
+        text: 'The database ID is scrambled with a Feistel permutation and encoded as Base62. Every short code is unique without generating random candidates or checking for collisions — a permutation masks sequential IDs, but it is obfuscation rather than encryption.',
       },
       {
-        title: 'Click counting at redirect speed',
-        text: 'A synchronous UPDATE per hit would dominate redirect latency. Hits increment an in-memory buffer flushed every 5 seconds as one transaction, with deltas pushed back into the buffer on transaction failure so counts are never dropped mid-flush. The cost is explicit and deliberate: a crash loses at most one flush window of counts.',
+        title: 'Keep redirects lightweight',
+        text: 'An LRU cache handles recent link lookups. Click totals are buffered and written in batches every five seconds — with the explicit trade-off that a server restart can lose a small window of click counts.',
       },
       {
-        title: 'One rate limiter for two runtimes',
-        text: 'Next.js middleware runs on the edge runtime, where Node built-ins don\u2019t exist. Writing the limiter and cache as pure JavaScript with zero Node imports let the same modules serve route handlers and middleware alike — and also keeps them honestly per-instance, documented as the first line of defense with a Redis-backed swap as the documented next step when the app runs distributed.',
-      },
-      {
-        title: 'Verification you can\u2019t shortcut',
-        text: 'Trusting a "verified" claim inside the session cookie would let an unverified user flip a client-side value. The gate re-reads the verified flag on every session resolution, verification tokens are single-use and hashed at rest, and email verification deliberately does not log you in — instead the registering tab holds its credentials in memory and polls login every 3 seconds until verification flips, auto-navigating to the dashboard without shared-session weirdness across tabs.',
-      },
-      {
-        title: 'Migrating engines and legacy data without downtime',
-        text: 'The storage layer\u2019s single-file constraint paid off twice: swapping node:sqlite for @libsql/client to unlock Turso was a rewrite of one module, and the old JSON store was imported on first boot with INSERT OR IGNORE batching, slug normalization, and a rename-to-.imported marker — failures log and retry on the next boot rather than crashing startup.',
+        title: 'Local development, remote production',
+        text: 'The same LibSQL client connects to a local SQLite file during development and Turso in production. Only the database connection settings need to change.',
       },
     ],
     testing:
-      'Verification is manual and explicit rather than an automated suite: a curl-based end-to-end script drives registration validation, duplicate detection (including case-insensitivity), session auth, hash-leak checks, server-side logout, login-by-email, anonymous-vs-authenticated creation, and hammers login until the 429 rate limit fires — printing PASS/FAIL per check. A separate one-shot smoke test runs the full create/get/delete cycle against a real remote Turso database, including a cache-hit assertion, and cleans up after itself. Migration and wipe scripts round out the ops tooling.',
+      'A curl and PowerShell HTTP regression suite checks registration, duplicate accounts, session handling, protected routes and rate limits. A separate script smoke-tests the remote Turso database. There is no automated test framework or CI pipeline yet.',
     },
     future: [
       {
-        title: 'Redis-Backed Rate Limits & Cache',
-        text: 'Swapping the per-instance in-memory limiter and cache for shared Redis stores so limits and hot links hold across multiple instances — the first step of the documented scaling path.',
+        title: 'Shared cache & rate limiting',
+        text: 'Rate limiting, the cache and click buffers are held per instance today — move them to Redis-backed shared infrastructure when the app runs distributed.',
       },
       {
-        title: 'Edge Redirects',
-        text: 'Serving hot redirects from CDN workers off a replicated key-value store, pushing the hottest links\u2019 latency toward DNS-level.',
+        title: 'Link editing & richer analytics',
+        text: 'Links cannot be edited after creation, and analytics currently show click counts only — add link editing and per-link trends over time.',
       },
       {
-        title: 'Slug-Keyed Sharding',
-        text: 'The end of the documented scaling ladder: sharding the keyspace by slug — the natural shard key — once a single SQLite/Turso database stops being the right shape.',
+        title: 'Automated tests in CI',
+        text: 'The regression suite is manual scripts today; bring it into an automated CI pipeline.',
       },
     ],
   },
   {
     slug: 'pc-shop',
-    num: '04',
+    num: '02',
     title: 'PC Shop',
     standfirst:
-      'A full-stack PC-parts store with an interactive 3D builder: a rules engine that catches incompatible builds live, FPS estimates grounded in real published benchmarks, a swappable payment gateway with HMAC-verified webhooks, and a catalog-grounded AI shopping assistant.',
-    tags: ['Full-Stack Web', 'E-Commerce', '3D / WebGL', 'AI / LLM'],
+      'Build a PC before buying the parts. A PC components storefront with an interactive 3D builder, live compatibility checks, performance estimates and an AI shopping assistant.',
+    subtitle: 'Build a PC before buying the parts.',
+    description: 'A PC components storefront with an interactive 3D builder, live compatibility checks, performance estimates and an AI shopping assistant.',
+    tags: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'react-three-fiber / Three.js (3D viewer)', 'SQLite', 'Drizzle ORM', 'Node.js crypto', 'Groq LLM API', 'Stripe'],
     year: '2026',
     role: 'Solo Design & Engineering',
-    cover: 'images/pc-shop.svg',
-    overview: 'A full-stack PC-parts store with an interactive 3D builder: a live compatibility rules engine, FPS estimates grounded in real published benchmarks, a swappable payment gateway with HMAC-verified webhooks, and a catalog-grounded AI shopping assistant.',
-    motivation: 'Parts stores treat components as isolated SKUs — nothing warns you a CPU will not fit your motherboard. I wanted compatibility, power and honest FPS numbers computed live while you build, in 3D. It was also a deliberate triple exercise: WebGL, payment-provider abstraction, and a grounded LLM assistant on a free tier.',
+    cover: 'images/pc-shop/hero-pc.webp',
+    how: [
+      'Storefront (Next.js App Router, RSC-first): catalog, category, product, search, order and admin pages are server components querying the database directly. Cart, builder, 3D viewer and AI assistant are client islands. Business logic lives in pure lib modules so browser and server never drift.',
+      'Data layer: SQLite via Drizzle ORM, 7 tables (products with structured JSON specs, orders with denormalized price snapshots, discounts, builds, users, sessions, benchmark_data).',
+      'Rules + performance engine: pure functions over plain product data. The browser builder runs them client-side for instant feedback, and the AI tools run the identical code server-side.',
+      'Payments: checkout creates an order, then a payment session through the configured provider. The gateway\u2019s webhook verifies HMAC-SHA256 over the raw body, checks the amount, and transitions pending→paid with a compare-and-set guard so retries can\u2019t double-resolve.',
+      'AI assistant: a bounded tool loop with trimmed history, capped tool results, max six rounds and 800 completion tokens, with 429 responses parsed from Groq\u2019s own \u201ctry again in X.XXs\u201d hint.',
+    ],
+    flow: [
+      { title: 'Shop + builder', sub: 'Next.js and React Three Fiber' },
+      { title: 'Domain logic', sub: 'compatibility + FPS models' },
+      { title: 'Data', sub: 'SQLite + Drizzle' },
+      { title: 'External', sub: 'MiniPay, Stripe, LLM' },
+    ],
+    overview: 'A PC components storefront with an interactive 3D builder, live compatibility checks, performance estimates and an AI shopping assistant. Building the 3D experience was only half the work — the useful part was making the compatibility and performance rules understandable and independent of the interface.',
+    motivation: 'I wanted to combine e-commerce with the parts of PC building I enjoy most: choosing components, checking fit and understanding how a complete setup performs.',
     stats: [
-      { value: '12', label: 'live compatibility rules' },
-      { value: '~100', label: 'real components seeded' },
-      { value: '±8%', label: 'FPS estimate bands, benchmark-grounded' },
-      { value: '4', label: 'catalog-grounded assistant tools' },
+      { value: '8', label: 'builder component slots' },
+      { value: '12', label: 'compatibility rules' },
+      { value: '3', label: 'payment provider options' },
     ],
     architecture: {
       diagram: 'images/pc-shop/architecture.svg',
       points: [
-        'The compatibility engine is pure functions, shared byte-for-byte by the browser builder and the AI tools.',
-        'Benchmark rows (TechPowerUp, GPUCheck) ground FPS estimates: min(GPU, CPU cap) per resolution.',
-        'A PaymentProvider abstraction swaps MiniPay, Stripe test mode or a local mock — checkout logic untouched.',
-        'The webhook verifies HMAC-SHA256 over the raw body and transitions paid via compare-and-set.',
+        'Compatibility checks live in pure TypeScript functions, separate from React and database code — the same logic runs anywhere. A clean seam for future unit testing.',
+        'The FPS model combines seeded GPU benchmark averages with CPU ceilings. Partial builds show wider uncertainty; missing pairings fall back to estimates — numbers are estimates, not a replacement for real benchmarks.',
+        'Checkout never trusts the cart: prices are fetched again from SQLite on the server. Payment providers share one interface, including MiniPay, Stripe test mode and a local mock — the UI can change without changing payment rules.',
       ],
     },
     features: [
-      { title: 'Interactive 3D Build Viewer', text: 'Every selected part renders as a GLB model inside the case; incompatible picks pulse red, driven live by the rules engine.', img: 'images/pc-shop/vid-3d.svg', video: true },
-      { title: 'Live Compatibility Checks', text: 'Sockets, DDR4/DDR5, PSU headroom, GPU clearance — instant feedback on every selection, in the browser.', img: 'images/pc-shop/vid-rules.svg', video: true },
-      { title: 'Benchmark-Grounded FPS', text: 'Real per-GPU and per-CPU data combined per resolution, with a measured-vs-fallback flag so numbers are never hand-waved.', img: 'images/pc-shop/vid-fps.svg', video: true },
-      { title: 'Catalog-Grounded AI Assistant', text: 'A Groq-powered chat allowed to state only what live catalog tools return — specs, prices and compatibility included.', img: 'images/pc-shop/vid-assistant.svg', video: true },
+      { title: 'Build it in 3D', text: 'Every selected part renders as a GLB model inside the case in a live react-three-fiber scene, with orbit controls and clickable ghost slots for anything still missing.', img: [{ src: 'images/pc-shop/3DBuilder.webm', video: true }], video: true },
+      { title: 'Live rules, honest FPS', text: 'Twelve compatibility rules (sockets, memory, PSU headroom, GPU clearance and more) run on every selection with pulsing-red errors and plain-English fixes, while FPS estimates come from real TechPowerUp and GPUCheck data through a min(GPU, CPU-cap) model, reporting ±8%/±15% bands and CPU-bottleneck warnings.', img: [{ src: 'images/pc-shop/compatibility.webp', fit: 'contain-white' }, { src: 'images/pc-shop/performance.webp', fit: 'contain-white' }], video: true },
+      { title: 'An assistant that only knows the catalog', text: 'A Groq-powered chat with four tools (product search, details, compatibility check, performance estimate) that may only state what tool results return, with clickable product links and rate-limit retry handling.', img: [{ src: 'images/pc-shop/ai1.webp', fit: 'contain-white' }, { src: 'images/pc-shop/ai2.webp', fit: 'contain-white' }], video: true },
+      { title: 'The full commerce stack', text: 'Cart, checkout with server-side re-pricing, discounts (percent/fixed, product-scoped, redemption caps), order history, scrypt-hashed accounts with revocable sessions, and a separate admin dashboard.', img: [{ src: 'images/pc-shop/fcs1.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs2.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs3.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs4.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs5.webp', fit: 'contain-white' }, { src: 'images/pc-shop/fcs6.webp', fit: 'contain-white' }], video: true },
+      { title: 'Builds made for sharing', text: 'Save any configuration to a community builds gallery on the website, where anyone can browse it and fork it straight into their own builder.', img: [{ src: 'images/pc-shop/communityBuild.webp', fit: 'contain-white' }, { src: 'images/pc-shop/commuityBuild2.webp', fit: 'contain-white' }], video: true },
     ],
 
     liveUrl: null,
+  githubUrl: 'https://github.com/yemann2k39-jpg/pc-shop',
     problem:
       'PC-part stores treat components as isolated SKUs: nothing tells you a CPU doesn\u2019t fit your motherboard until you own both, "gaming performance" is a marketing bullet with no methodology, and first-time builders have no way to see what they\u2019re buying. I wanted a shop where compatibility, power, and real FPS numbers are computed live while you build — in 3D.',
     solution:
@@ -603,46 +756,63 @@ export const caseStudies = [
     ],
     challenges: [
       {
-        title: 'Webhooks you can\u2019t trust twice',
-        text: 'Payment gateways retry callbacks, and a retried "paid" event would double-resolve an order or double-count a discount. The fix: verify the HMAC over the raw request body (never re-serialized), reject amount mismatches before touching state, and make pending\u2192paid a compare-and-set UPDATE guarded on status = \'pending\' inside a transaction that also flips the discount-redeemed flag — SQLite\u2019s serialized writes close the crash window between the status flip and the redemption bump.',
+        title: 'Pure-function core over framework magic',
+        text: 'Compatibility and performance logic as plain functions meant the UI, server re-validation and LLM tools share one implementation with zero drift.',
+        note: 'A clean seam for future unit testing.',
       },
       {
-        title: 'One engine, client and server',
-        text: 'Compatibility feedback that only exists server-side means a network round-trip per part pick; a separate client implementation means the AI assistant and the UI eventually disagree. Keeping the rules as pure functions over plain product data let the builder run them in the browser on every change and the AI tools run the identical code on the server — one implementation, zero drift.',
+        title: 'Measured numbers and idempotency by default',
+        text: 'A measured-vs-fallback flag means the UI never presents a relative-index guess as real benchmark data. Webhooks, order transitions and discount redemptions are all designed assuming the message will arrive twice.',
+        note: 'Numbers are estimates, not a replacement for real benchmarks.',
       },
       {
-        title: 'Performance numbers you can defend',
-        text: 'Hand-waved "estimated FPS" is worse than none. The model is grounded in seeded benchmark rows from TechPowerUp (per-GPU per-resolution averages) and GPUCheck (CPU 1080p ceilings measured against an RTX 4090), combined as min(GPU, CPU cap) per resolution with explicit \u00b18%/\u00b115% ranges, DDR4 noted as a ~8% penalty, and a measured-vs-fallback flag so the UI never presents a relative-index guess as measured data.',
-      },
-      {
-        title: 'Swapping payment providers without touching checkout',
-        text: 'Stripe\u2019s hosted session flow, MiniPay\u2019s orderRef-based API, and a local mock all shape checkout differently. Defining a two-method provider interface (createCheckout, isSessionPaid) selected from environment variables let checkout and order logic stay identical across all three — the mock gateway keeps the whole purchase flow testable with zero external accounts.',
-      },
-      {
-        title: 'A grounded assistant on a free LLM tier',
-        text: 'Groq\u2019s free tier enforces a tight tokens-per-minute cap, and a shop assistant that invents specs is a liability. The turn loop budgets hard: trimmed history, tool results capped at 2000 chars, 800 completion tokens, max six tool rounds — and 429 responses parse the gateway\u2019s own "try again in X.XXs" hint to wait out the window instead of failing the user\u2019s question. Grounding rules in the system prompt require every claim to cite a tool result.',
+        title: 'Grounding over vibes for the LLM',
+        text: 'Rather than prompting \u201cdon\u2019t make things up,\u201d the architecture makes invention impossible: every claim must cite a tool result, and the tools only query the live catalog.',
+        note: 'Answers stay narrow and slower, but nothing can be invented.',
       },
     ],
+    learn: 'Building the 3D experience was only half the work. The useful part was making the compatibility and performance rules understandable and independent of the interface.',
+    learnList: [
+      'Sharing the rules engine between client, server and AI tools from day one saved three rewrites later.',
+      'Rate limits are a feature to design for: parsing the gateway\u2019s own retry hint turned 429 failures into a seamless wait.',
+      'Denormalized price snapshots are cheap insurance: order history stays truthful after prices change.',
+      'A mock payment provider is what makes the whole purchase flow testable and demoable offline.',
+    ],
+    learnListStyle: 'numbered',
+    limits: [
+      'Local SQLite is not designed for distributed production traffic.',
+      'Admin access uses a single configured password.',
+      'No automated test framework or CI pipeline.',
+      'Stock is tracked as a status, not a quantity.',
+    ],
+    next: [
+      'Automated tests for compatibility and performance rules.',
+      'Quantity-based inventory and stronger admin access.',
+      'More reliable payment confirmation and a scalable database.',
+    ],
     testing:
-      'Verification scripts run against the real seeded database: pnpm verify:compat asserts known-good and known-bad builds produce the expected rule findings, pnpm verify:perf checks the benchmark-grounded performance estimates and pairing warnings, and a smoke-auth script exercises the scrypt/session account flow — with the production build verified after every change.',
+      'Production build and lint checks are supported by targeted TypeScript verification scripts for compatibility, performance and authentication. The mock payment provider allows a complete local checkout flow. There is no unit-test framework or CI pipeline yet.',
     future: [
       {
-        title: 'Live Demo & Repository Links',
-        text: 'TBD — GitHub repository and live demo deployment to be linked here.',
+        title: 'Tests for the rule engines',
+        text: 'Automated tests for the compatibility and performance rules — no unit-test framework or CI pipeline yet.',
       },
       {
-        title: 'Streaming Assistant Responses',
-        text: 'Token streaming for the AI chat with incremental tool-call rendering, so answers appear as they are generated.',
+        title: 'Quantity-based inventory & stronger admin access',
+        text: 'Stock is currently tracked as a status, not a quantity, and admin access uses a single configured password.',
       },
       {
-        title: 'Order Fulfilment & Email',
-        text: 'Shipping-status transitions on orders and transactional email on payment confirmation.',
+        title: 'Reliable payments & a scalable database',
+        text: 'More reliable payment confirmation, and a database designed for distributed production traffic — local SQLite is not built for that.',
       },
     ],
   },
 ]
 
 // ————————————————————————————————————————————————
+// presented in project-number order: Sus 01 · PC Shop 02 · MiniPay 03 · LilRoutine 04
+export const caseStudies = [...studies].sort((a, b) => a.num.localeCompare(b.num))
+
 // SMALL BUILDS — TODO: replace these placeholders with your
 // real fun/small projects (name, description, links, tech).
 // ————————————————————————————————————————————————
@@ -687,17 +857,16 @@ export const skills = [
   { label: 'Languages', items: ['JavaScript', 'TypeScript', 'Python', 'Dart', 'SQL'] },
   { label: 'Frontend', items: ['React.js', 'React Native', 'Flutter', 'HTML/CSS', 'Tailwind'] },
   { label: 'Backend', items: ['Node.js', 'Express', 'NestJS', 'PostgreSQL', 'Prisma'] },
-  { label: 'Tools & APIs', items: ['Git/GitHub', 'Stripe API', 'Mapbox API', 'OpenAI API', 'Docker', 'Figma'] },
+  { label: 'Tools & APIs', items: ['Git/GitHub', 'Stripe API', 'Mapbox API', 'Docker', 'Figma'] },
 ]
 
 export const about = {
-  heading: 'Building solutions for real friction',
+  heading: 'Building beyond the code',
   paragraphs: [
-    'I am a software developer who thrives at the intersection of design, logic, and human behavior. I don\u2019t just write code. I identify friction points in daily digital life and engineer applied solutions to fix them.',
-    'Whether it\u2019s unifying fragmented study workflows or cutting through internet hype to surface authentic experiences, my goal is to build technology that serves the user honestly and efficiently.',
+    'I\u2019m a software developer with experience building web and mobile applications, from designing interfaces and developing backend services to integrating APIs and databases. I\u2019m passionate about software development and enjoy working across different areas of it, exploring new technologies, and taking projects from an initial idea to a working application. I\u2019m always willing to learn, take on unfamiliar challenges, and put in the effort to improve my skills. My approach is to keep things practical, pay attention to the details, and write code that\u2019s easy to understand, maintain, and improve.',
   ],
-  portrait: 'images/profile.jpg',
+  portrait: 'images/profile.webp',
 }
 
 export const approach =
-  'Building great software requires more than just functional code. It requires understanding how people think, interact, and solve problems in real-world environments. I value creating systems that balance technical reliability with intuitive and thoughtful user experiences.'
+  'Software engineering isn\u2019t just about making things work. It\u2019s about understanding why they work, how the different pieces fit together, and how to make them better.'
