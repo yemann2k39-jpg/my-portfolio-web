@@ -17,7 +17,7 @@ export default function BackToTop() {
       onClick={() => window.__lenis ? window.__lenis.scrollTo(0, { duration: 1.2 }) : window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Back to top"
       title="Back to top"
-      className="fixed right-6 top-1/2 z-[90] -translate-y-1/2 flex h-10 w-10 items-center justify-center border border-line bg-paper text-ink shadow-lg transition-colors hover:border-accent hover:text-accent"
+      className="fixed right-6 top-1/2 z-[90] -translate-y-1/2 flex h-10 w-10 max-md:top-auto max-md:bottom-6 max-md:right-auto max-md:left-1/2 max-md:-translate-x-1/2 max-md:translate-y-0 items-center justify-center border border-line bg-paper text-ink shadow-lg transition-colors hover:border-accent hover:text-accent"
     >
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M12 19V5M5 12l7-7 7 7" />

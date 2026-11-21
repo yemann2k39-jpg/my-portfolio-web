@@ -59,7 +59,7 @@ export default function Nav() {
           {LINKS.map((l) => (
             <a
               key={l.id}
-              href={`#/${l.id}`}
+              href={`/${l.id}`}
               onClick={goTo(l.id)}
               className="hidden font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft transition-colors hover:text-accent md:inline"
             >
@@ -106,7 +106,7 @@ export default function Nav() {
             {LINKS.map((l) => (
               <a
                 key={l.id}
-                href={`#/${l.id}`}
+                href={`/${l.id}`}
                 onClick={goTo(l.id)}
                 className="border-b border-line py-3.5 font-mono text-xs uppercase tracking-[0.18em] text-ink transition-colors last:border-b-0 hover:text-accent"
               >

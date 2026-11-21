@@ -396,6 +396,9 @@ html.lenis, html.lenis body { height: auto; }
   .fgrid {
     display: flex;
     overflow-x: auto;
+    /* vertical finger movement scrolls the page; horizontal swipes the carousel */
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 20px;
     padding-inline: 20px;

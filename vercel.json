@@ -4,5 +4,11 @@
     "api/chat.js": {
       "includeFiles": "../knowledge/**"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

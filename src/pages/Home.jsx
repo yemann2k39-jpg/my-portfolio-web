@@ -306,7 +306,7 @@ function Carousel({ scale, mobile = false, tablet = false }) {
       </div>
 
       {/* ——— info under the image (active project only) ——— */}
-      <div className={`relative z-10 mx-auto ${mobile ? 'mt-14' : tablet ? 'mt-24' : 'mt-5'} ${mobile || tablet ? 'h-auto w-[88%]' : 'h-[210px] w-[55%]'}`}>
+      <div className={`relative z-10 mx-auto overflow-hidden ${mobile ? 'mt-14 h-[270px]' : tablet ? 'mt-24 h-[250px]' : 'mt-5 h-[210px]'} ${mobile || tablet ? 'w-[88%]' : 'w-[55%]'}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={active.slug}
